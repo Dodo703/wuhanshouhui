@@ -13,7 +13,17 @@ $(window).resize(function(){
 	$('.modal_open .mutiview-dialog-bg').width(document.documentElement.clientWidth).height(document.documentElement.clientHeight);
 })
 
+// 点赞收藏
+$('.icon_love').click(function(){
+	if($(this).hasClass('loved')){
+		$(this).html('&#xe62b;');
+		$(this).removeClass('loved');
+	}else{
+		$(this).html('&#xe614;');
+		$(this).addClass('loved');
+	}
 
+})
 // 登录注册
 $('body').removeClass('modal_open');
 $('.mutiview-dialog-bg').width(0).height(0);
@@ -25,7 +35,14 @@ $('.mutiview-dialog  .close_btn').click(function(){
 	$('.mutiview-dialog-bg').width(0).height(0);
 	$('.modal_wrapper').css('display','none');
 })
+// 个人中心
 
+$('.user_nav li').click(function(){
+	$('.user_nav li').removeClass('active');
+	$(this).addClass('active');
+	$('.user_content .content').hide();
+	$('.user_content .content').eq($(this).index()).show();
+})
 
 
 })
@@ -44,3 +61,4 @@ function  userLogin(item1,item2){
 	$('.modal_wrapper').find('.title').removeClass('active');
 	$('.modal_wrapper').find(item2).addClass('active');
 	}
+
