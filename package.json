@@ -1,0 +1,33 @@
+{
+  "name": "shouhui",
+  "version": "1.0.0",
+  "description": "www.wuhanshouhui.cn",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.17.1",
+    "connect-mongo": "^1.3.2",
+    "cookie-session": "^2.0.0-beta.1",
+    "express": "^4.15.2",
+    "jade": "^1.11.0",
+    "moment": "^2.18.1",
+    "mongoose": "^4.9.2",
+    "morgan": "^1.8.1",
+    "serve-static": "^1.12.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-concurrent": "^2.3.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-nodemon": "^0.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "xiaoWu",
+  "license": "ISC"
+}

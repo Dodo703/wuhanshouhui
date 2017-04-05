@@ -1,0 +1,55 @@
+header
+	nav.navbar.navbar-fixed-top
+		.navbar-inner
+			.container
+				.navbar-header.xs_box
+					//- .visible-xs.iconfont.user_icon &#xe61b;
+					.visible-xs.iconfont.user_icon &#xe601;
+					a.navbar-brand.logo(href="#",alt="")
+						img(src="/images/logo.png",alt="")
+					button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#bs-example-navbar-collapse-1",aria-expanded="false")
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+				#bs-example-navbar-collapse-1.collapse.navbar-collapse
+					ul.nav.navbar-nav.navbar-right
+						li
+							a(href="/",title='') 首页
+						li.dropdown
+							a.dropdown-toggle(href="/qianghui",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 墙绘
+								span.caret
+							ul.dropdown-menu
+								li
+									a(href="",title="") 工装
+								li
+									a(href="",title="") 家装
+								li
+									a(href="",title="") 3D
+						li.dropdown
+							a.dropdown-toggle(href="",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 墙绘
+								span.caret
+							ul.dropdown-menu
+								li
+									a(href="",title="") 雕塑
+								li
+									a(href="",title="") 挂画
+						li
+							a(href="/tuku",title='') 图库
+						li
+							a(href="/fuli",title='') 福利
+						li
+							a(href="/aboutus",title='') 我们
+						if user
+							li.hidden-xs
+								a.user_logined(href="/user",title='')
+									img(src="http://source.chengdumote.com/wp-content/uploads/2016/06/nvshen2-400x400.jpg")
+						else	
+							li.hidden-xs
+								a#userRegister.user(href="javascript:;",title='') 注册
+							li.hidden-xs
+								a#userLogin.user(href="javascript:;",title='') 登录
+						
+				.clearfix
+
+
