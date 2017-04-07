@@ -1,9 +1,6 @@
 var express=require('express')
 var path=require('path')
 var mongoose=require('mongoose')
-var _=require('underscore')
-// var Movie=require('./models/movie')
-var User=require('./models/user')
 var port=process.env.PORT || 3000
 var serveStatic=require('serve-static')
 var bodyParser = require('body-parser')
@@ -14,7 +11,7 @@ mongoose.Promise = global.Promise;
 //数据库的连接
 mongoose.connect('mongodb://127.0.0.1:27017/shouhui')
 
-app.set('views','./views/pages')
+app.set('views','./app/views/pages')
 app.set('view engine','jade')
 app.use(bodyParser.urlencoded({ extended: true}))  
 app.use(bodyParser.json())

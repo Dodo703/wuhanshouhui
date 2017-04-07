@@ -67,7 +67,7 @@ header .active{ color: #fff;background: #dfbfda;border-radius: 3px;}
 .case_more{display:block;background-color:#b5a4cf;text-align: center;color: #fff;padding: 8px;margin-top:20px;margin-bottom: 10px; }
 .case_more:hover{color: #fff;background-color: #c5b7da;}
 .case-info{padding: 5px 0;color: #000;}
-.case-info strong{font-weight: 600;}
+.case-info strong{font-weight: 600;padding-left: 6px;}
 .case-info p{font-size: 14px;color:#5a5351;margin: 10px 0;}
 .case-info p span{color:#ff5722;padding: 0 5px;}
 .home_footer{margin: 50px auto 10px;}
@@ -86,14 +86,14 @@ body.modal_open{overflow: hidden;}
 .mutiview-dialog .mutiview-dialog-title .title{    cursor: pointer;width: 50%;float: left;padding:20px 10px;margin:0;  font-size: 16px;line-height: 18px;font-weight: 700;text-align: center;}
 .mutiview-dialog .mutiview-dialog-title .active{background-color:transparent;color: #b5a4cf;font-size: 18px;}
 .mutiview-dialog  .close_btn{position: absolute;top: 10px;display: inline-block;    cursor: pointer;width: 18px;height: 18px;background-color: #ccc;border-radius: 9px;text-align: center;color: #fff;right: 10px;line-height: 18px;}
-.mutiview-dialog  .input-wrapper{border-bottom:1px solid #eee;position: relative;}
+.input-wrapper{border-bottom:1px solid #eee;position: relative;}
 .mutiview-dialog  .input-wrapper:nth-of-type(1){border-top:1px solid #eee; }
-.mutiview-dialog  .input-wrapper input {padding: 15px 8px;height: 48px;width: 100%;font-size: 14px;line-height: 18px; color: #787878; border: 0; outline: 0;box-sizing: border-box;}
+.input-wrapper input{padding: 15px 8px;height: 48px;width: 100%;font-size: 14px;line-height: 18px; color: #787878; border: 0; outline: 0;box-sizing: border-box;}
 .mutiview-dialog .actions{padding: 10px;}
-.mutiview-dialog .btn {display: inline-block;background-color: #b5a4cf;padding: 8px 16px;width: 100%;font-size: 14px;line-height: 1;color: #fff;border: 0;border-radius: 3px;outline: 0;cursor: pointer;}
+.mutiview-dialog .btn{display: inline-block;background-color: #b5a4cf;padding: 8px 16px;width: 100%;font-size: 14px;line-height: 1;color: #fff;border: 0;border-radius: 3px;outline: 0;cursor: pointer;}
 .mutiview-dialog .sns{padding:0 10px; }
 .mutiview-dialog .forget{float: right;}
-.mutiview-dialog .input-wrapper .captcha-container { position: absolute;top: 0;right: 10px;bottom: 0;color: #fff;margin: auto; height: 30px;line-height: 30px;padding: 0 8px;border-radius: 4px;overflow: hidden; cursor: pointer;background-color: #b5a4cf;}
+.input-wrapper .captcha-container { position: absolute;top: 0;right: 10px;bottom: 0;color: #fff;margin: auto; height: 30px;line-height: 30px;padding: 0 8px;border-radius: 4px;overflow: hidden; cursor: pointer;background-color: #b5a4cf;}
 /*墙绘*/
 .no_padding{padding:0 5px;text-align: center;}
 .small_title{padding: 5px;cursor:pointer;font-size:15px;}
@@ -139,6 +139,9 @@ body.modal_open{overflow: hidden;}
 .case_status i.iconfont:nth-of-type(1){font-size:18px; }
 .case_status i.loved{color: #b5a4cf;}
 .case_status span{padding: 0 8px;color: #ff5722;}
+.information .media-object{width: 40px;}
+.momment-list p{margin-bottom: 0;}
+
 /*个人中心*/
 .user_header{position: relative; background-color: #FFF;box-shadow: 0 0 4px rgba(0,0,0,.2);margin-top: 60px;padding-top: 20px;}
 .user_header .radius{margin:10px auto; width: 100px;height: 100px;padding: 6px;border-radius:100%;border:2px solid #f8f8f8;}
@@ -162,6 +165,9 @@ a.logout:focus, a.logout:hover {color: #FFF;background: #c5a5c0;}
 .clear-input {display: inline-block; padding: 0 10px;height: 36px;font-size: 16px;line-height: 1;color: #777;background: #FCFCFC;border: 1px solid #CCC;border-radius: 3px; width: 250px;box-shadow: inset 0 1px 2px rgba(0,0,0,.05);-webkit-transition: color .2s linear,border-color .3s linear;}
 .user_info .list button{margin-top: 10px; border-radius: 3px;background: #dfbfda;border:0; color: #fff;padding: 8px 15px;font-size: 14px;}
 
+/*后台用户登录*/
+.adminlog{padding-bottom: 10px;margin-top: 10px;margin-bottom:15px; color: #787878;font-size: 14px;background-color: #fff;border-radius: 5px;}
+.adminlog .btn{display: inline-block;background-color: #b5a4cf;padding:15px 16px;margin:10px; width: 100%;font-size: 14px;line-height: 1;color: #fff;border: 0;border-radius: 3px;outline: 0;cursor: pointer;}
 
 @media(max-width: 767px){
 .xs_box{display:-moz-box; display: flexbox;display: flex;display: -ms-flexbox;display:-webkit-box; display:-o-box; display:box;}

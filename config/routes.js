@@ -1,84 +1,37 @@
-var _=require('underscore')
-// var Movie=require('./models/movie')
-var User=require('../models/user')
+var Index=require('../app/controllers/index')
+var User=require('../app/controllers/user')
+var Movie=require('../app/controllers/movie')
+var Comment=require('../app/controllers/comment')
+
 module.exports=function(app){
 
 // 预处理一下
 app.use(function(req,res,next){
 	var _user=req.session.user
-	if(_user){
 		app.locals.user=_user
-	}
-	return next()
+		next()
 })
 
 //主页index page
-app.get('/',function(req,res){
-	res.render('index',{
-		title:'imooc 首页'
-	})
-})
-///signup
-app.post('/user/signup',function(req,res){
-	var _user=req.body.user
-	User.findOne({name: _user.name},function(err,user){
-		if(err){console.log(err)}
-		console.log(user)
-		if(user){
-			console.log('已经注册')
-			return res.redirect('/admin/userlist')
-		}else{
-			console.log('注册')
-			var user=new User(_user)
-			user.save(function(err,user){
-				if(err){console.log(err)} 
-				res.redirect('/admin/userlist')
-			})
-		}
-	})
-	
-})
+app.get('/',Index.index)
+//movie
+app.get('/movie/:id',Movie.detail)  //图片详情
+app.get('/admin/movie',User.adminRequired,Movie.new)   //新建录入图片
+app.get('/admin/update/:id',User.adminRequired,Movie.update)  //更新图片
+app.post('/admin/movie/new',User.adminRequired,Movie.save)  //图片保存到数据库
+app.get('/admin/list',User.adminRequired,Movie.list)  //后台图片列表
+app.delete('/admin/list',User.adminRequired,Movie.del)  //图片删除
 
-//userlist page
-app.get('/admin/userlist',function(req,res){
-	User.fetch(function(err,users){
-		if(err){
-			console.log(err)
-		}
-		// console.log(users)
-		// req.session.user=users
-		// res.redirect('/')
-		res.render('userlist',{
-			title:'imooc 用户列表页',
-			users:users
-		})
-	})
-	
-})
-// signin
-app.post('/user/signin',function(req,res){
-	var _user=req.body.user
-	var name=_user.name
-	var password=_user.password
-	User.findOne({name:name},function(err,user){
-		if(err){console.log(err)}
-		if(!user){return res.redirect('/')}
-		user.comparaPassword(password,function(err,isMatch){
-			if(err){console.log(err)}
-			if(isMatch){
-				req.session.user=user
-				return res.redirect('/')
-			}else{console.log('password is not matched')}
-		})
-	})
-})
-// logout
-app.get('/user/logout',function(req,res){
-	delete req.session.user
-	delete app.locals.user
-	res.redirect('/')
+//user
+app.get('/user',User.signinRequired,User.info)  //用户个人中心
+app.post('/user/signup',User.signup)  //用户注册
+app.post('/user/signin',User.signin)  //用户登录
+app.get('/user/logout',User.logout)  //注销用户
+app.get('/admin/userlist',User.adminRequired,User.list)  //后台用户列表
+app.get('/admin/signin',User.adminSignin)  //后台用户登录
 
-})
+// comment
+app.post('/user/comment',User.signinRequired,Comment.save)  //用户注册
 
 
 // //墙绘 qianghui page
@@ -105,12 +58,4 @@ app.get('/aboutus',function(req,res){
 		title:'imooc 首页'
 	})
 })
-//个人中心 user page
-app.get('/user',function(req,res){
-	res.render('user',{
-		title:'imooc 首页'
-	})
-})
-
-
 }

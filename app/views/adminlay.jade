@@ -1,0 +1,106 @@
+doctype
+html
+	head
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		title #{title}
+		link(href="/libs/bootstrap/dist/css/bootstrap.min.css",rel="stylesheet")
+		link(href="/css/style.css",rel="stylesheet")
+		script(src="/libs/jquery/dist/jquery.min.js")
+		script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
+	body
+		header
+			nav.navbar.navbar-fixed-top
+				.navbar-inner
+					.container
+						.navbar-header.xs_box
+							//- .visible-xs.iconfont.user_icon &#xe61b;
+							.visible-xs.iconfont.user_icon &#xe601;
+							a.navbar-brand.logo(href="#",alt="")
+								img(src="/images/logo.png",alt="")
+							button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#bs-example-navbar-collapse-1",aria-expanded="false")
+								span.sr-only Toggle navigation
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+						#bs-example-navbar-collapse-1.collapse.navbar-collapse
+							ul.nav.navbar-nav.navbar-right
+								li
+									a(href="/",title='') 首页
+								li.dropdown
+									a.dropdown-toggle(href="/qianghui",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 墙绘
+										span.caret
+									ul.dropdown-menu
+										li
+											a(href="",title="") 工装
+										li
+											a(href="",title="") 家装
+										li
+											a(href="",title="") 3D
+								li.dropdown
+									a.dropdown-toggle(href="",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 墙绘
+										span.caret
+									ul.dropdown-menu
+										li
+											a(href="",title="") 雕塑
+										li
+											a(href="",title="") 挂画
+								li
+									a(href="/tuku",title='') 图库
+								li
+									a(href="/fuli",title='') 福利
+								li
+									a(href="/aboutus",title='') 我们
+								if user
+									li.hidden-xs
+										a.user_logined(href="/user",title='')
+											img(src="http://source.chengdumote.com/wp-content/uploads/2016/06/nvshen2-400x400.jpg")
+								else	
+									li.hidden-xs
+										a#userRegister.user(href="javascript:;",title='') 注册
+									li.hidden-xs
+										a#userLogin.user(href="javascript:;",title='') 登录
+						.clearfix
+		.container
+		.row
+			.page-header
+				h2.center #{title}
+		block content
+		footer
+			.copyinfo.navbar-fixed-bottom © 武汉手绘 
+		.mutiview-dialog-bg
+			.modal_wrapper
+				.mutiview-dialog
+					span.close_btn x
+					.mutiview-dialog-title
+						.title.active.title_register 注册
+						.title.title_login 登录
+						.clearfix
+					.mutiview-dialog-content.login
+						.LoginForm
+							form(method="post",action="/user/signin")
+								.input-wrapper
+									input(type="text",name="user[name]",placeholder="手机号")
+								.input-wrapper
+									input(type="password",name="user[password]",placeholder="密码")
+								.actions
+									button.btn 登录
+								.sns.clearfix
+									label.remember_me
+										input(type="checkbox",name="",checked,value="true")
+										span &nbsp;记住密码
+									a.forget(href="",title="") 忘记密码？
+					.mutiview-dialog-content.register
+						.LoginForm
+							form(method="post",action="/user/signup")
+								.input-wrapper
+									input(type="text",name="user[name]",placeholder="手机号")
+								.input-wrapper
+									input(type="password",name="user[password]",placeholder="密码")
+								.input-wrapper
+									input(type="text",name="",placeholder="请填写验证码")
+									div.captcha-container 获取短信验证码
+								.actions
+									button.btn(type="submit") 注册
+		script(src="/js/common.js")

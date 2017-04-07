@@ -1,0 +1,80 @@
+extends ../layout
+
+block content
+	.information.container
+		ol.breadcrumb.visible-xs
+			li
+				a(href="#",title="") 首页
+			li
+				a(href="#",title="") 工装
+			li.active
+				a(href="#",title="") 儿童房
+		.ul
+			a.home_weal(href='#',title="")
+				.col-xs-3.col-sm-3.col-md-3.col-lg-2
+					img(src="#{movie.poster}",alt="")
+				.col-xs-9.col-sm-9.col-md-9.col-lg-10
+					h4=movie.title
+					p=movie.summary
+					span 发布：
+						small #{moment(movie.meta.updateAt).format('MM/DD/YYYY')}
+				.case_status
+					p
+						i.iconfont &#xe637;
+						span 62562 &nbsp;|&nbsp;
+						i.iconfont.icon_love &#xe62b;
+						span 45616
+				.clearfix
+		.infor_content
+			p #{movie.summary}
+			a.info_img(href="#{movie.poster}",title="")
+				img(src="#{movie.poster}",alt="")
+			p #{movie.summary}
+			a.info_img(href="#{movie.poster}",title="")
+				img(src="#{movie.poster}",alt="")
+			.clearfix
+		.panel.panel-defatul
+				.panel-body
+					ul.media-list.momment-list
+						each item in comments
+							li.media
+								.pull-left
+									a.comment(href="#comments",data-cid="#{item._id}",data-tid="#{item.from._id}")
+										img.media-object(src="/images/userIcon.jpg")
+								.media-body
+									h4.media-heading #{item.from.name}
+									p #{item.content}
+									if item.reply && item.reply.length>0
+										each reply in item.reply
+											.media
+												.pull-left
+													a.comment(href="#comments",data-cid="#{item._id}",data-tid="#{reply.from._id}")
+														img.media-object(src="/images/userIcon.jpg")
+												.media-body
+													h4.media-heading 
+													| #{reply.from.name}
+													span.text-info &nbsp;回复&nbsp;
+													| #{reply.to.name} :
+													p #{reply.content}	
+								hr
+					#comments
+						form#commentForm(method="POST",action="/user/comment")
+							input(type="hidden",name="comment[movie]",value="#{movie._id}")
+							.form-group
+								textarea.form-control(name="comment[content]",row="3",placeholder="啊好想说些什么")
+							if user
+								button.btn.btn-primary(type='submit') 提交
+								input(type="hidden",name="comment[from]",value="#{user._id}")
+							else
+								a#userLogin.user(href="javascript:;",title='') 登录后评论
+						
+
+
+
+
+
+
+
+
+
+
