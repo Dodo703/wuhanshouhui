@@ -1,4 +1,6 @@
 var mongoose=require('mongoose')
+var Schema=mongoose.Schema
+var ObjectId=Schema.Types.ObjectId
 //密码加密，
 var bcrypt=require('bcrypt-nodejs')
 var SALT_WORK_FACTOR=10
@@ -8,11 +10,15 @@ var UserSchema=new mongoose.Schema({
 		unique:true,
 		type:String
 	},
+	phone:Number,
+	email:String,
+	address:String,
 	password:String,
 	role:{
 		type:Number,
 		default:0
 	},
+	examples:[{type:ObjectId,ref:'Example'}],
 	meta:{
 		createAt:{
 			type:Date,

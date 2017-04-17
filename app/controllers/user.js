@@ -1,5 +1,6 @@
 var User=require('../models/user')
-
+var Example=require('../models/example')
+var _=require('underscore')
 exports.info=function(req,res){
 	res.render('user',{
 		title:'个人中心'
@@ -27,7 +28,7 @@ exports.signup=function(req,res){
 
 //userlist page
 exports.list=function(req,res){
-	User.fetch(function(err,users){
+	User.find({role:0},function(err,users){
 		if(err){
 			console.log(err)
 		}
@@ -48,18 +49,23 @@ exports.signin=function(req,res){
 	var password=_user.password
 	User.findOne({name:name},function(err,user){
 		if(err){console.log(err)}
-		if(!user){return res.redirect('/')}
+		if(!user){return res.redirect('back')}
 		user.comparaPassword(password,function(err,isMatch){
 			if(err){console.log(err)}
 			if(isMatch){
 				req.session.user=user
-				res.redirect('back');
+				if(user.role>0){
+					res.redirect('../admin/userlist');
+				}else{
+					res.redirect('back');
+				}
 			}else{console.log('password is not matched')}
 		})
 	})
 }
 // logout
 exports.logout=function(req,res){
+	if(req.session.user)
 	delete req.session.user
 	//delete app.locals.user
 	res.redirect('/')
@@ -78,7 +84,7 @@ exports.signinRequired=function(req,res,next){
 	var user=req.session.user
 	if(!user){
 		console.log('没有登录')
-		return res.redirect('/')
+		return res.redirect('back')
 	}
 	next()
 }
@@ -86,9 +92,57 @@ exports.signinRequired=function(req,res,next){
 //判断后台权限用户是否已登录
 exports.adminRequired=function(req,res,next){
 	var user=req.session.user
-	if(!user || user.role!=10){
+	if(!user || user.role<10){
 		console.log('没有权限')
-		return res.redirect('./signin')
+		return res.redirect('../admin/signin')
 	}
 	next()
+}
+
+
+//userlist page
+exports.useradmin=function(req,res){
+	User.find({role:10},['_id','name','meta'],function(err,users){
+		res.render('useradmin',{
+			title:'管理员列表页',
+			users:users
+		})
+	})
+}
+//删除用户
+exports.del=function(req,res){
+	var id=req.query.id
+	User.remove({_id:id},function(err,user){
+				if(err){
+					console.log(err)
+				}else{
+					res.json({success:1})
+				}
+			})
+}
+
+
+// 用户收藏列表
+exports.userFavourite=function(req,res){
+	var id=req.session.user._id
+	var limit=req.query.limit
+	var results=[]
+	User
+		.find({_id:id})
+		.populate({path:'examples'})
+		.exec(function(err,user){
+			for(var i=0,j=0;i<user[0].examples.length&&j<limit;i++,j++){
+				var json={
+					"title":user[0].examples[i].title,
+					"id":user[0].examples[i]._id,
+					"poster":user[0].examples[i].poster,
+					"pv":user[0].examples[i].pv,
+					"summary":user[0].examples[i].summary,
+					"favourite":user[0].examples[i].users.length
+				}
+				results.push(json)
+			}
+				console.log('results'+results)
+				res.json(results)
+	})
 }

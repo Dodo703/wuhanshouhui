@@ -21,7 +21,8 @@ app.use(session({
 	secret:'imooc'
 }))
 // 开发环境与生产环境
-if('development'===app.get('env')){
+var env=process.env.NODE_ENV || 'development'
+if('development'===env){
 	app.set('showStackError',true)
 	app.use(morgan(':method :url :status'))
 	// 查看源代码格式化
@@ -31,6 +32,10 @@ if('development'===app.get('env')){
 // 入口文件的引入
 require("./config/routes")(app)
 
+//404
+// app.use(function(req,res){
+// 	res.render('err')
+// })
 
 app.listen(port)
 

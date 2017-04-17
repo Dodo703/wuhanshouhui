@@ -3,8 +3,10 @@ header
 		.navbar-inner
 			.container
 				.navbar-header.xs_box
-					//- .visible-xs.iconfont.user_icon &#xe61b;
-					.visible-xs.iconfont.user_icon &#xe601;
+					if user
+						a.visible-xs.iconfont.user_icon(href="/user",title="") &#xe61b;
+					else
+						#user_icon.visible-xs.iconfont.user_icon &#xe601;
 					a.navbar-brand.logo(href="#",alt="")
 						img(src="/images/logo.png",alt="")
 					button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#bs-example-navbar-collapse-1",aria-expanded="false")
@@ -19,23 +21,15 @@ header
 						li.dropdown
 							a.dropdown-toggle(href="/qianghui",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 墙绘
 								span.caret
-							ul.dropdown-menu
-								li
-									a(href="",title="") 工装
-								li
-									a(href="",title="") 家装
-								li
-									a(href="",title="") 3D
+							ul.dropdown-menu#qHead
 						li.dropdown
-							a.dropdown-toggle(href="",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 墙绘
+							a.dropdown-toggle(href="",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 工艺
 								span.caret
-							ul.dropdown-menu
-								li
-									a(href="",title="") 雕塑
-								li
-									a(href="",title="") 挂画
-						li
-							a(href="/tuku",title='') 图库
+							ul.dropdown-menu#gHead
+						li.dropdown
+							a.dropdown-toggle(href="",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") 图库
+								span.caret
+							ul.dropdown-menu#tHead
 						li
 							a(href="/fuli",title='') 福利
 						li

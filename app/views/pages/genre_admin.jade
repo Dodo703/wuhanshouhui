@@ -1,0 +1,32 @@
+extends ../adminlay
+
+block content
+	.container
+		.row
+			form.form-horizontal(method="post",action="/admin/genre")
+				if genre._id
+					input(type="hidden",name="genre[_id]",value=genre._id)
+				.form-group
+					label.col-sm-2.control-label(for="selectGenre") 所属类别
+					.col-sm-10
+						select#selectCategory.form-control(name="genre[scope]",value=genre.scope)
+							if genre.scope=='图库'
+								option(value="图库") 图库
+								option(value='墙绘') 墙绘
+								option(value="工艺") 工艺
+							else if genre.scope=='工艺'
+								option(value="工艺") 工艺
+								option(value='墙绘') 墙绘
+								option(value="图库") 图库
+							else
+								option(value='墙绘') 墙绘
+								option(value="工艺") 工艺
+								option(value="图库") 图库	
+				.form-group
+					label.col-sm-2.control-label(for="inputGenre") 分类名称
+					.col-sm-10
+						input#inputCategory.form-control(type="text",name="genre[name]",value=genre.name,placeholder="如工装，家装，挂画，雕塑。。。")
+				.form-group
+					.col-sm-offset-2.col-sm-10
+						button.btn.btn-default(type="submit") 录入
+

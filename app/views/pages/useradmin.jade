@@ -1,0 +1,45 @@
+extends ../adminlay
+
+block content
+	.container
+		.row
+			a#addAdUser.bottom10.col-xs-4.col-sm-2.btn.col-xs-offset-1.col-sm-offset-3.btn-default.btn-sm(href="javascript:void(0);") 增加管理员
+			a.bottom10.col-xs-4.col-sm-2.btn.col-xs-offset-2.col-sm-2.btn.col-sm-offset-2.btn-default.btn-sm(href="../admin/useradmin") 管理员列表
+			.clearfix
+			.table-responsive#adminUserList
+				table.table.table-hover.table-bordered
+					thead
+						tr
+							th 名字
+							th 时间
+							th 删除
+					tbody
+						each item in users
+							tr(class="item-id-#{item._id}")
+								td #{item.name}
+								td #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
+								td
+									button.btn.btn-danger.del(type="button",data-id="#{item._id}") 删除
+			.col-xs-8.col-md-6.col-xs-offset-2.col-md-offset-3.add-user
+				form#addUserForm.form-horizontal.c-hide(method="post",action="/user/signup")
+					input(type="hidden",name="user[role]",value='10')
+					.form-group
+						label.col-sm-2.control-label(for="inputText") 名称
+						.col-sm-10
+							input#inputText.form-control(type="text",name="user[name]",placeholder="")
+					.form-group
+						label.col-sm-2.control-label(for="inputPass") 密码
+						.col-sm-10
+							input#inputPass.form-control(type="password",name="user[password]",placeholder="")
+					.form-group
+						.col-sm-offset-2.col-sm-10
+							button.btn.btn-default(type="submit") 添加
+	script(src="/js/admin.js")
+	script(type='text/javascript').
+		$(function(){
+			//用户列表
+			$('.del').on('click',function(e){
+				del(e,'/admin/userlist?id=')
+			}) 
+
+		})	

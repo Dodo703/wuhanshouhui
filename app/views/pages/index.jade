@@ -48,84 +48,27 @@ block content
 						.clearfix
 		.row.home_case
 			.page-header
-				h2 墙绘作品展
-				p.case_desc 每副作品都因为我们的集思广益而独具匠心，每一个笔触都具于我们无数次的推敲才跃然纸上，每一抹色彩都记录了我们曾经看过的风景。
-			each item in movies
-				.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-					.user_case
-						a(href="/movie/#{item._id}",title="")
-							img(src="#{item.poster}",alt="#{item.title}")
-						.case-info
-							strong #{item.title}
-							.case_status
-								i.iconfont &#xe637;
-								span 62562 &nbsp;|&nbsp;
-								i.iconfont.icon_love &#xe62b;
-								span 45616
-			.clearfix
-			.col-md-6.col-md-offset-3
-				a.case_more(href='#',title='') 查看所有墙绘作品
+				h2 墙绘
+				p.case_desc 墙绘墙绘墙绘墙绘
+			#qIndex
+				//- ajax
 		.row.home_case
 			.page-header
-				h2 墙绘作品展
-				p.case_desc 每副作品都因为我们的集思广益而独具匠心，每一个笔触都具于我们无数次的推敲才跃然纸上，每一抹色彩都记录了我们曾经看过的风景。
-			.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-				.user_case
-					a(href="#",title="")
-						img(src="http://www.szshouhui.com/wp-content/uploads/2014/08/儿童房手绘56bOOOfPIC29_1024-227x180.jpg",alt="")
-					.case-info
-						strong 【雪佛兰】全新科鲁兹
-						.case_status
-							i.iconfont &#xe637;
-							span 62562 &nbsp;|&nbsp;
-							i.iconfont.icon_love &#xe62b;
-							span 45616
-			.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-				.user_case
-					a(href="#",title="")
-						img(src="http://www.szshouhui.com/wp-content/uploads/2014/08/儿童房手绘56bOOOfPIC29_1024-227x180.jpg",alt="")
-					.case-info
-						strong 【雪佛兰】全新科鲁兹
-						.case_status
-							i.iconfont &#xe637;
-							span 62562 &nbsp;|&nbsp;
-							i.iconfont.icon_love &#xe62b;
-							span 45616
-			.clearfix
-			.col-md-6.col-md-offset-3
-				a.case_more(href='#',title='') 查看所有墙绘作品
+				h2 工艺
+				p.case_desc 工艺工艺工艺工艺工艺
+			#gIndex
+				//- ajax
 		.row.home_case
 			.page-header
-				h2 墙绘作品展
-				p.case_desc 每副作品都因为我们的集思广益而独具匠心，每一个笔触都具于我们无数次的推敲才跃然纸上，每一抹色彩都记录了我们曾经看过的风景。
-			.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-				.user_case
-					a(href="#",title="")
-						img(src="http://www.szshouhui.com/wp-content/uploads/2014/08/儿童房手绘56bOOOfPIC29_1024-227x180.jpg",alt="")
-					.case-info
-						strong 【雪佛兰】全新科鲁兹
-						.case_status
-							i.iconfont &#xe637;
-							span 62562 &nbsp;|&nbsp;
-							i.iconfont.icon_love &#xe62b;
-							span 45616
-			.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-				.user_case
-					a(href="#",title="")
-						img(src="http://www.szshouhui.com/wp-content/uploads/2014/08/儿童房手绘56bOOOfPIC29_1024-227x180.jpg",alt="")
-					.case-info
-						strong 【雪佛兰】全新科鲁兹
-						.case_status
-							i.iconfont &#xe637;
-							span 62562 &nbsp;|&nbsp;
-							i.iconfont.icon_love &#xe62b;
-							span 45616
-			.clearfix
-			.col-md-6.col-md-offset-3
-				a.case_more(href='#',title='') 查看所有墙绘作品
-		
-
-
-
-
-
+				h2 图库
+				p.case_desc 图库图库图库图库图库
+			#tIndex
+				//- ajax
+	script(src="/js/ajax.js")
+	script(type='text/javascript').
+		$(function(){
+			// index
+			showScope('#qIndex','墙绘',12)
+			showScope('#gIndex','工艺',12)
+			showScope('#tIndex','图库',12)
+		})

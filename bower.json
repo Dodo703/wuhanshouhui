@@ -20,6 +20,8 @@
   ],
   "dependencies": {
     "jquery": "^3.2.1",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    // "wangEditor": "^2.1.23",
+    "swiper": "^3.4.2"
   }
 }

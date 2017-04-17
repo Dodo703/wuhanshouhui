@@ -1,0 +1,37 @@
+extends ../adminlay
+
+block content
+	.container
+		.row
+			.table-responsive
+				table.table.table-hover.table-bordered
+					thead
+						tr
+							th 领域
+							th.right-border 图片分类
+							th.left-border
+								a(href="/admin/genre_new/1") 添加
+							th(colspan='2') 包含的关键字
+							th.hidden-xs 时间
+							th 更新
+							th 删除
+					tbody
+						each item in genres
+							tr(class="item-id-#{item._id}")
+								td.scope #{item.scope}
+								td(colspan='2') #{item.name}
+								if item.categories && item.categories.length>0
+									td.right-border 
+										each cat in item.categories
+											| #{cat.name},
+									td.text-right.left-border
+										a.sm_add.btn.btn-info.btn-sm(href="/admin/category/#{item._id}/1") 添加
+										a.sm_add.btn.btn-default.btn-sm(target="_blank",href="/admin/category_list/#{item._id}") 编辑
+								else
+									td(colspan='2'): a(href="/admin/category/#{item._id}/1") 添加关键字
+								td.hidden-xs #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
+								td: a(href="/admin/genre_new/#{item._id}") 修改
+								td
+									button.btn.btn-danger.del.btn-sm(type="button",data-id="#{item._id}") 删除
+	script(src="/js/admin.js")
+

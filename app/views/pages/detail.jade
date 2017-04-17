@@ -10,28 +10,38 @@ block content
 			li.active
 				a(href="#",title="") 儿童房
 		.ul
-			a.home_weal(href='#',title="")
+			a.home_weal(href='javascript:;',title="")
 				.col-xs-3.col-sm-3.col-md-3.col-lg-2
-					img(src="#{movie.poster}",alt="")
+					img(src="#{example.poster}",alt="")
 				.col-xs-9.col-sm-9.col-md-9.col-lg-10
-					h4=movie.title
-					p=movie.summary
+					h4=example.title
+					p=example.summary
 					span 发布：
-						small #{moment(movie.meta.updateAt).format('MM/DD/YYYY')}
+						small #{moment(example.meta.updateAt).format('MM/DD/YYYY')}
 				.case_status
 					p
 						i.iconfont &#xe637;
-						span 62562 &nbsp;|&nbsp;
-						i.iconfont.icon_love &#xe62b;
-						span 45616
+						span #{example.pv}
+						small.small_line
+						if user
+							-for(var j=0;j<example.users.length;j++){
+								-if(user._id==example.users[j]){love=1}
+							-}
+							if love==0
+								i.iconfont.icon_love(data-id="#{example._id}") &#xe62b;
+							else
+								i.iconfont.icon_love.loved(data-id="#{example._id}") &#xe614;
+						else 
+							i.iconfont.icon_love(data-id="#{example._id}" data-toggle="tooltip" data-placement="bottom" title="登录后可收藏") &#xe62b;
+						span #{example.users.length}
 				.clearfix
 		.infor_content
-			p #{movie.summary}
-			a.info_img(href="#{movie.poster}",title="")
-				img(src="#{movie.poster}",alt="")
-			p #{movie.summary}
-			a.info_img(href="#{movie.poster}",title="")
-				img(src="#{movie.poster}",alt="")
+			p #{example.summary}
+			a.info_img(href="#{example.poster}",title="")
+				img(src="#{example.poster}",alt="")
+			p #{example.summary}
+			a.info_img(href="#{example.poster}",title="")
+				img(src="#{example.poster}",alt="")
 			.clearfix
 		.panel.panel-defatul
 				.panel-body
@@ -59,7 +69,7 @@ block content
 								hr
 					#comments
 						form#commentForm(method="POST",action="/user/comment")
-							input(type="hidden",name="comment[movie]",value="#{movie._id}")
+							input(type="hidden",name="comment[example]",value="#{example._id}")
 							.form-group
 								textarea.form-control(name="comment[content]",row="3",placeholder="啊好想说些什么")
 							if user

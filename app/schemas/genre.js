@@ -2,15 +2,10 @@ var mongoose=require('mongoose')
 var Schema=mongoose.Schema
 var ObjectId=Schema.Types.ObjectId
 
-var CommentSchema=new mongoose.Schema({
-	example:{type:ObjectId,ref:'Example'},
-	from:{type:ObjectId,ref:'User'},
-	reply:[{
-		from:{type:ObjectId,ref:'User'},
-		to:{type:ObjectId,ref:'User'},
-		content:String
-	}],
-	content:String,
+var GenreSchema=new mongoose.Schema({
+	name:String,
+	categories:[{type:ObjectId,ref:'Category'}],
+	scope:String,
 	meta:{
 		createAt:{
 			type:Date,
@@ -23,7 +18,7 @@ var CommentSchema=new mongoose.Schema({
 	}
 })
 
-CommentSchema.pre('save',function(next){
+GenreSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt=this.meta.updateAt=Date.now()
 	}else{
@@ -32,7 +27,7 @@ CommentSchema.pre('save',function(next){
 	next()
 })
 
-CommentSchema.statics={
+GenreSchema.statics={
 	fetch:function(cb){
 		return this
 		.find({})
@@ -46,4 +41,4 @@ CommentSchema.statics={
 	}
 }
 
-module.exports=CommentSchema
+module.exports=GenreSchema

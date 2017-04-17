@@ -3,20 +3,89 @@ extends ../adminlay
 block content
 	.container
 		.row
-			form.form-horizontal(method="post",action="/admin/movie/new")
-				input(type="hidden",name="movie[_id]",value="#{movie._id}")
+			form.form-horizontal(method="post",action="/admin/example_new",enctype="multipart/form-data")
+				if example._id
+					input(type="hidden",name="example[_id]",value=example._id)
+					input(type="hidden",name="example[poster]",value=example.poster)
+					//- input(type="hidden",name="catId",value=catId)	
+					#catId(class='#{catId}')
+				.form-group
+					label.col-sm-2.control-label(for="selectScope") 领域 
+					.col-sm-10
+						if example._id
+							select#selectScope.form-control(name="genreScope",value=genre.scope)
+								if genre.scope=='墙绘'
+										option(value='墙绘') 墙绘  
+										option(value="工艺") 工艺
+										option(value="图库") 图库
+									if genre.scope=='工艺'
+										option(value='工艺') 工艺
+										option(value="墙绘") 墙绘
+										option(value="图库") 图库
+									if genre.scope=='图库'	
+										option(value='图库') 图库
+										option(value="工艺") 工艺
+										option(value="墙绘") 墙绘
+						else
+							select#selectScope.form-control(name="genreScope",value='')
+								option(value='图库') 图库
+								option(value="工艺") 工艺
+								option(value="墙绘") 墙绘
+				.form-group
+					label.col-sm-2.control-label(for="selectGenre") 所属分类
+					.col-sm-10
+						if example._id
+							select#selectGenre.form-control(name="genre[name]",value=genre.name)
+						else
+							select#selectGenre.form-control(name="",value='')
+
+							//- option ajax请求
+				.form-group
+					label.col-sm-2.control-label 关键字
+					.col-sm-10#selectCategory
+
+						//- radio ajax请求
 				.form-group
 					label.col-sm-2.control-label(for="inputTitle") 图片名称
 					.col-sm-10
-						input#inputTitle.form-control(type="text",name="movie[title]",value="#{movie.title}")
+						input#inputTitle.form-control(type="text",name="example[title]",value=example.title)
 				.form-group
-					label.col-sm-2.control-label(for="inputTitle") 图片地址
+					label.col-sm-2.control-label(for="inputPoster") 图片上传
 					.col-sm-10
-						input#inputTitle.form-control(type="text",name="movie[poster]",value="#{movie.poster}")
+						input#inputPoster(type="file",name="inputPoster")
 				.form-group
 					label.col-sm-2.control-label(for="inputTitle") 图片简介
 					.col-sm-10
-						input#inputTitle.form-control(type="text",name="movie[summary]",value="#{movie.summary}")
+						input#inputSummary.form-control(type="text",name="example[summary]",value=example.summary)
 				.form-group
 					.col-sm-offset-2.col-sm-10
-					button.btn.btn-default(type="submit") 录入
+						button.btn.btn-default(type="submit") 录入
+	script(src="/js/admin.js")
+	script(type='text/javascript').
+		$(function(){
+			if($('#selectScope').val()){
+				var scope=$('#selectScope').val()
+			}else{
+			var scope=$('#selectScope').children('option:selected').val();
+			}
+			console.log(scope)
+			var string=''
+			 $.ajax({
+		             type: "GET",
+		             url: "/admin/getAllGenre",
+		             data:{scope:scope},
+		             dataType: "json",
+		             success: function(data){
+		             	console.log(data.selectNames)
+						for(var i=0;i<data.selectNames.length;i++){
+							string=string+'<option value ="'+data.selectNames[i]+'">'+data.selectNames[i]+'</option>' 
+						}
+						$('#selectGenre').html(string)
+						console.log($('#selectGenre').children('option:selected').val())
+						getAllCategory()
+					}
+			})
+		})
+
+
+

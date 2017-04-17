@@ -13,22 +13,19 @@ $(window).resize(function(){
 	$('.modal_open .mutiview-dialog-bg').width(document.documentElement.clientWidth).height(document.documentElement.clientHeight);
 })
 
-// 点赞收藏
-$('.icon_love').click(function(){
-	if($(this).hasClass('loved')){
-		$(this).html('&#xe62b;');
-		$(this).removeClass('loved');
-	}else{
-		$(this).html('&#xe614;');
-		$(this).addClass('loved');
-	}
 
-})
+
+//分类详情页
+$(document).on('click',".category",function(){  
+   var id=$(this).attr('data-id')
+   selectCategory('#selsctCategory',id)
+});  
+
 // 登录注册
 $('body').removeClass('modal_open');
 $('.mutiview-dialog-bg').width(0).height(0);
 $('.modal_wrapper').css('display','none');
-$('#userLogin , .title_login , .user_icon').click(function(){userLogin('.login','.title_login');})
+$('#userLogin , .title_login , #user_icon').click(function(){userLogin('.login','.title_login');})
 $('#userRegister  , .title_register').click(function(){userLogin('.register','.title_register');})
 $('.mutiview-dialog  .close_btn').click(function(){
 	$('body').removeClass('modal_open');
@@ -107,7 +104,47 @@ var swiper = new Swiper('.swiper-container1', {
             }
         }
     });
+
+
+// 点赞收藏
+
+
+ $('[data-toggle="tooltip"]').tooltip()
+// $(document).on('hover,click','[data-toggle="tooltip"]',tooltip())
+
+$(document).on('click','.icon_love',function(e){  
+	if($(e.target).hasClass('loved')){
+		// 取消收藏
+		favourite(e,'/favourite?id=','0')
+	}else{
+		//收藏
+		favourite(e,'/favourite?id=','1')
+	}
+
 })
+
+
+})
+//收藏按钮
+function favourite(e,url,cancel){
+	var target=$(e.target)
+	var id=target.data('id')
+	$.ajax({
+		type:'GET',
+		url:url+id+'&cancel='+cancel
+	})
+	.done(function(results){
+		if(results.success===1&&cancel==1){
+			target.addClass('loved').html('&#xe614;');
+			target.next('span').html(results.favourite)
+		}else{
+			target.removeClass('loved').html('&#xe62b;');
+			target.next('span').html(results.favourite)
+		}
+
+	})
+}
+
 // 登录注册
 function  userLogin(item1,item2){
 	$('body').addClass('modal_open');
@@ -123,4 +160,19 @@ function  userLogin(item1,item2){
 	$('.modal_wrapper').find('.title').removeClass('active');
 	$('.modal_wrapper').find(item2).addClass('active');
 	}
-
+// header
+function headGenre(item,scope){
+	var string=''
+ $.ajax({
+             type: "GET",
+             url: "/headGenre",
+             data:{scope:scope},
+             dataType: "json",
+             success: function(data){
+				for(var i=0;i<data.length;i++){
+					string=string+'<li data-id="'+data[i].id+'"><a href="/genre/'+scope+'/'+data[i].id+'" title="" >'+data[i].name+'</a></li>' 
+				}
+				$(item).html(string)
+			}
+	})
+}

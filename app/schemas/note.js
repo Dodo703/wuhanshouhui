@@ -1,9 +1,18 @@
 var mongoose=require('mongoose')
+var Schema=mongoose.Schema
+var ObjectId=Schema.Types.ObjectId
 
-var MovieSchema=new mongoose.Schema({
+var ExampleSchema=new mongoose.Schema({
 	title:String,
 	summary:String,
-	poster:String,
+	pv:{
+		type:Number,
+		default:0
+	},
+	user: {
+    type: ObjectId,
+    ref: 'User'
+ 	},
 	meta:{
 		createAt:{
 			type:Date,
@@ -16,7 +25,7 @@ var MovieSchema=new mongoose.Schema({
 	}
 })
 
-MovieSchema.pre('save',function(next){
+ExampleSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt=this.meta.updateAt=Date.now()
 	}else{
@@ -25,7 +34,7 @@ MovieSchema.pre('save',function(next){
 	next()
 })
 
-MovieSchema.statics={
+ExampleSchema.statics={
 	fetch:function(cb){
 		return this
 		.find({})
@@ -39,4 +48,4 @@ MovieSchema.statics={
 	}
 }
 
-module.exports=MovieSchema
+module.exports=ExampleSchema

@@ -50,20 +50,14 @@ block content
 								td
 									button 保存
 			//- 收藏
-			.content.user_loved
-				.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-					.user_case
-						a(href="#",title="")
-							img(src="http://www.szshouhui.com/wp-content/uploads/2014/08/儿童房手绘56bOOOfPIC29_1024-227x180.jpg",alt="")
-						.case-info
-							strong 【雪佛兰】全新科鲁兹
-							.case_status
-								i.iconfont &#xe637;
-								span 62562 &nbsp;|&nbsp;
-								i.iconfont.icon_love &#xe62b;
-								span 45616
+			.content.user_loved#userFavourite
 			//- 评论
 			.content.user_comment
+	script(src="/js/ajax.js")
+	script(type='text/javascript').
+		$(function(){
+			userFavourite('#userFavourite',12)
+		})			
 
 		
 

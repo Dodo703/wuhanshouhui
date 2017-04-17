@@ -4,45 +4,48 @@ block content
 	#qiangHui.container
 		ol.breadcrumb.visible-xs
 			li
-				a(href="#",title="") 首页
+				a(href="/",title="") 首页
 			li
-				a(href="#",title="") 墙绘
+				a(href="/",title="") #{genre.scope}
 			li
-				a(href="#",title="") 工装
+				a(href="#",title="") #{genre.name}
 		.select_title
-			.col-xs-3.col-sm-2.col-md-2.col-lg-2.no_padding.small_title.active 工装艺术
+			.col-xs-3.col-sm-2.col-md-2.col-lg-2.no_padding.small_title.active
+				a(href="/genre/#{genre.scope}/#{genre._id}") #{genre.name}艺术
 			.col-xs-9.col-sm-10.col-md-10.col-lg-10.no_padding
-				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title ktv墙绘
-				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title 美容院
-				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title 办公室
-				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title 学校
-				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title ktv墙绘
+				if genre.categories.length>0
+					each item in genre.categories
+						.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title.category(data-id="#{item._id}") #{item.name}
 			.clearfix
-		.home_case.row
-			.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-				.user_case
-					a(href="#",title="")
-						img(src="http://www.szshouhui.com/wp-content/uploads/2014/08/儿童房手绘56bOOOfPIC29_1024-227x180.jpg",alt="")
-					.case-info
-						strong 【雪佛兰】全新科鲁兹
-						.case_status
-							i.iconfont &#xe637;
-							span 62562 &nbsp;|&nbsp;
-							i.iconfont.icon_love &#xe62b;
-							span 45616
-			.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
-				.user_case
-					a(href="#",title="")
-						img(src="http://www.szshouhui.com/wp-content/uploads/2014/08/儿童房手绘56bOOOfPIC29_1024-227x180.jpg",alt="")
-					.case-info
-						strong 【雪佛兰】全新科鲁兹
-						.case_status
-							i.iconfont &#xe637;
-							span 62562 &nbsp;|&nbsp;
-							i.iconfont.icon_love &#xe62b;
-							span 45616
+		.home_case.row#selsctCategory
+			if genre.categories.length>0
+					each cat in genre.categories
+						if cat.examples.length>0
+							each item in cat.examples
+								.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
+									.user_case
+										a(href="/example/#{item._id}",title="")
+											img(src="#{item.poster}",alt="#{item.title}")
+										.case-info
+											strong #{item.title}
+											.case_status
+												i.iconfont &#xe637;
+												span #{item.pv}
+												small.small_line
+												-love=0
+												if user
+													-for(var j=0;j<item.users.length;j++){
+														-if(user._id==item.users[j]){love=1}
+													-}
+													if love==0
+														i.iconfont.icon_love(data-id="#{item._id}") &#xe62b;
+													else
+														i.iconfont.icon_love.loved(data-id="#{item._id}") &#xe614;
+												else 
+													i.iconfont.icon_love(data-id="#{item._id}" data-toggle="tooltip" data-placement="bottom" title="登录后可收藏") &#xe62b;
+												span #{item.users.length}
 			.clearfix
-
+	script(src="/js/ajax.js")
 
 
 		

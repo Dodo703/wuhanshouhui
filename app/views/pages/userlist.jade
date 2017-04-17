@@ -3,21 +3,34 @@ extends ../adminlay
 block content
 	.container
 		.row
-			table.table.table-hover.table-bordered
-				thead
-					tr
-						th 名字
-						th 时间
-						th 查看
-						th 更新
-						th 删除
-				tbody
-					each item in users
-						tr(class="item-id-#{item._id}")
-							td #{item.name}
-							td #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
-							td: a(target="_blank",href="../movie/#{item._id}") 查看
-							td: a(target="_blank",href="../admin/update/#{item._id}") 修改
-							td
-								button.btn.btn-danger.del(type="button",data-id="#{item._id}") 删除
-	//- script(src="/js/admin.js")
+			a#addAdminUser.bottom10.col-xs-4.col-sm-2.btn.col-xs-offset-4.col-sm-offset-5.btn-default.btn-sm(href="../admin/useradmin") 管理员列表
+			.clearfix
+			.table-responsive
+				table.table.table-hover.table-bordered
+					thead
+						tr
+							th 名字
+							th 电话号码
+							th 邮箱
+							th 收货地址
+							th 时间
+							th 删除
+					tbody
+						each item in users
+							tr(class="item-id-#{item._id}")
+								td #{item.name}
+								td #{item.phone}
+								td #{item.email}
+								td #{item.address}
+								td #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
+								td
+									button.btn.btn-danger.del(type="button",data-id="#{item._id}") 删除
+	script(src="/js/admin.js")
+	script(type='text/javascript').
+		$(function(){
+			//用户列表
+			$('.del').on('click',function(e){
+				del(e,'/admin/userlist?id=')
+			}) 
+
+		})	

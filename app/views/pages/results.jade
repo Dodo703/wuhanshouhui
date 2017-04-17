@@ -1,0 +1,55 @@
+extends ../layout
+
+block content
+	#qiangHui.container
+		ol.breadcrumb.visible-xs
+			li
+				a(href="#",title="") 首页
+			li
+				a(href="#",title="") 墙绘
+			li
+				a(href="#",title="") 工装
+		.select_title
+			.col-xs-3.col-sm-2.col-md-2.col-lg-2.no_padding.small_title.active 工装艺术
+			.col-xs-9.col-sm-10.col-md-10.col-lg-10.no_padding
+				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title ktv墙绘
+				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title 美容院
+				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title 办公室
+				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title 学校
+				.col-xs-3.col-sm-2.col-md-2.col-lg-2.small_title ktv墙绘
+			.clearfix
+		.row.home_case
+			if category.examples && category.examples.length>0
+				each item in category.examples 
+					.col-xs-6.col-sm-4.col-md-3.col-lg-3.case
+						.user_case
+							a(href="/example/#{item._id}",title="")
+								img(src="#{item.poster}",alt="#{item.title}")
+							.case-info
+								strong #{item.title}
+								.case_status
+									i.iconfont &#xe637;
+									span #{item.pv}
+									small.small_line
+									i.iconfont.icon_love &#xe62b;
+									span 45616
+				.clearfix
+		ul.pagination
+			-for(var i=0;i<totalPage;i++){
+				-if(currentPage==(i+1)){
+					li.active
+						span #{currentPage}
+				-}
+				-else{
+					li
+						a(href='/results?cat=#{catId}&p=#{i}') #{i+1}
+				-}
+			-}
+
+
+		
+
+
+
+
+
