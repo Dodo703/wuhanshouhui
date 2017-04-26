@@ -1,0 +1,70 @@
+extends ../layout
+
+block content
+	.information.container
+		ol.breadcrumb.visible-xs
+			li
+				a(href="#",title="") 首页
+			li
+				a(href="/fuli",title="") 福利
+			li.active
+				a(href="#",title="") #{note.title}
+		.ul
+			a.home_weal(href='javascript:;',title="")
+				.col-xs-3.col-sm-3.col-md-3.col-lg-2.padding-right
+					.div-bgimg(style="background-image:url(#{note.poster})")
+				.col-xs-9.col-sm-9.col-md-9.col-lg-10
+					h4=note.title
+					p=note.summary
+					span 发布：
+						small #{moment(note.meta.updateAt).format('MM/DD/YYYY')}
+				.case_status
+					p
+						i.iconfont &#xe637;
+						span #{note.pv} 
+						small.small_line
+						if user
+							-for(var j=0;j<note.users.length;j++){
+								-if(user._id==note.users[j]){love=1}
+							-}
+							if love==0
+								i.iconfont.fuli_love(data-id="#{note._id}") &#xe62b;
+							else
+								i.iconfont.loved.fuli_love(data-id="#{note._id}") &#xe614;
+						else 
+							i.iconfont.fuli_love(data-id="#{note._id}" data-toggle="tooltip" data-placement="bottom" title="登录后可收藏") &#xe62b;
+						span #{note.users.length}
+				.clearfix
+		.infor_content.hidden#infor_content1 #{note.content}
+		.infor_content#infor_content2
+			.clearfix
+		.panel.panel-defatul
+				.panel-body
+					ul.media-list.momment-list#momment-list
+					#comments
+						form#commentForm
+							input#note_id(type="hidden",name="note",value="#{note._id}")
+							.form-group
+								textarea#comContent.form-control(name="content",row="3",placeholder="啊好想说些什么")
+							if user
+								input.btn.btn-primary#commentSubmit(type="button" value="提交") 
+								input(type="hidden",name="from",value="#{user._id}")
+							else
+								a#userLogin.user(href="javascript:;",title='') 登录后评论
+	script(type='text/javascript').
+		$(function() {
+			$(".information .div-bgimg").height($(".information .div-bgimg").width());
+			$("#infor_content2").html($("#infor_content1").text()); 
+			getComment('#note_id','#momment-list','note')
+		})
+					
+
+
+
+
+
+
+
+
+
+

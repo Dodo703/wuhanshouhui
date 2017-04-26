@@ -4,15 +4,17 @@ block content
 	.information.container
 		ol.breadcrumb.visible-xs
 			li
-				a(href="#",title="") 首页
+				a(href="#",title="") #{example.category.genre.scope}
 			li
-				a(href="#",title="") 工装
+				a(href="#",title="") #{example.category.genre.name}
+			li
+				a(href="#",title="") #{example.category.name}
 			li.active
-				a(href="#",title="") 儿童房
+				a(href="#",title="") #{example.title}
 		.ul
 			a.home_weal(href='javascript:;',title="")
-				.col-xs-3.col-sm-3.col-md-3.col-lg-2
-					img(src="#{example.poster}",alt="")
+				.col-xs-3.col-sm-3.col-md-3.col-lg-2.padding-right
+					.div-bgimg(style="background-image:url(#{example.poster})")
 				.col-xs-9.col-sm-9.col-md-9.col-lg-10
 					h4=example.title
 					p=example.summary
@@ -35,49 +37,29 @@ block content
 							i.iconfont.icon_love(data-id="#{example._id}" data-toggle="tooltip" data-placement="bottom" title="登录后可收藏") &#xe62b;
 						span #{example.users.length}
 				.clearfix
-		.infor_content
-			p #{example.summary}
-			a.info_img(href="#{example.poster}",title="")
-				img(src="#{example.poster}",alt="")
-			p #{example.summary}
-			a.info_img(href="#{example.poster}",title="")
-				img(src="#{example.poster}",alt="")
+		.infor_content.hidden#infor_content1 #{example.content}
+		.infor_content#infor_content2
 			.clearfix
 		.panel.panel-defatul
 				.panel-body
-					ul.media-list.momment-list
-						each item in comments
-							li.media
-								.pull-left
-									a.comment(href="#comments",data-cid="#{item._id}",data-tid="#{item.from._id}")
-										img.media-object(src="/images/userIcon.jpg")
-								.media-body
-									h4.media-heading #{item.from.name}
-									p #{item.content}
-									if item.reply && item.reply.length>0
-										each reply in item.reply
-											.media
-												.pull-left
-													a.comment(href="#comments",data-cid="#{item._id}",data-tid="#{reply.from._id}")
-														img.media-object(src="/images/userIcon.jpg")
-												.media-body
-													h4.media-heading 
-													| #{reply.from.name}
-													span.text-info &nbsp;回复&nbsp;
-													| #{reply.to.name} :
-													p #{reply.content}	
-								hr
+					ul.media-list.momment-list#momment-list
 					#comments
-						form#commentForm(method="POST",action="/user/comment")
-							input(type="hidden",name="comment[example]",value="#{example._id}")
+						form#commentForm
+							input(type="hidden",name="cate",value="example")
+							input#example_id(type="hidden",name="example",value="#{example._id}")
 							.form-group
-								textarea.form-control(name="comment[content]",row="3",placeholder="啊好想说些什么")
+								textarea#comContent.form-control(name="content",row="3",placeholder="啊好想说些什么")
 							if user
-								button.btn.btn-primary(type='submit') 提交
-								input(type="hidden",name="comment[from]",value="#{user._id}")
+								input.btn.btn-primary#commentSubmit(type="button" value="提交") 
+								input(type="hidden",name="from",value="#{user._id}")
 							else
 								a#userLogin.user(href="javascript:;",title='') 登录后评论
-						
+	script(type='text/javascript').
+		$(function() {
+			getComment('#example_id','#momment-list','example');
+			$(".information .div-bgimg").height($(".information .div-bgimg").width());
+			$("#infor_content2").html($("#infor_content1").text()); 
+		})					
 
 
 

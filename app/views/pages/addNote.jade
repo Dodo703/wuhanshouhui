@@ -1,0 +1,58 @@
+extends ../adminlay
+
+block content
+	.container
+		.row
+			form#adminForm.form-horizontal(method="post",action="/admin/noteSave",enctype="multipart/form-data")
+				if note._id
+					input(type="hidden",name="note[_id]",value=note._id)
+				.form-group
+					label.control-label(for="inputTitle") 标题:
+					input#inputTitle.form-control(type="text",name="note[title]",value=note.title,maxlength='10')
+				.form-group
+					label.control-label(for="inputSummary") 简介描述:
+					input#inputSummary.form-control(type="text",name="note[summary]",value=note.summary,maxlength='30')
+				.form-group
+					#editor-container
+						textarea#editor-trigger1.form-control(type="text",name="note[content]",value=note.content, style="height:350px;")  #{note.content}
+				.form-group
+					.usertip
+				.form-group
+					input.btn.btn-default#adminBtn(type="button" value="录入") 
+	script(src="/js/admin.js")
+	script(type='text/javascript').
+		$(function(){
+		$('#adminBtn').click(function(){
+			if($('#inputTitle').val()==0){
+				$('.usertip').html('标题不能为空')
+			}else if($("#inputSummary").val()==0){
+				$('.usertip').html('简介描述不能为空')
+			}else if($('#editor-trigger1').val()==0){
+				$('.usertip').html('具体内容不能为空')
+			}else{
+				$('#adminForm').submit()
+			}
+		})
+		// 编译器
+		var editor1 = new wangEditor('editor-trigger1');
+		 // 自定义菜单
+		editor1.config.menus = [
+		   'bold',
+			'italic',
+			'forecolor',
+		    'bgcolor',
+		    'fontsize',
+		    '|',
+		    'link',
+		    'emotion',
+		    'img',
+		    'location',
+		    '|',
+		    'undo',
+		    'redo',
+		    'fullscreen'
+		];
+		editor1.config.uploadImgUrl = '/admin/notePoster';
+		//- editor1.config.emotionsShow = 'value'
+		editor1.create()
+		})	

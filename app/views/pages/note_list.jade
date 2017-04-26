@@ -1,0 +1,47 @@
+extends ../adminlay
+
+block content
+	.container
+		.row
+			a.bottom10.col-xs-4.col-sm-2.btn.col-xs-offset-4.col-sm-offset-5.btn-default.btn-sm(href="../admin/noteNew") 创建新帖子
+			.clearfix
+			.table-responsive
+				table.table.table-hover.table-bordered
+					thead
+						tr
+							th 标题
+							th 简要描述
+							th 浏览次数
+							th.hidden-xs 录入时间
+							th 查看
+							th 更新
+							th 删除
+					tbody
+						each item in notes
+							tr(class="item-id-#{item._id}")
+								td #{item.title}
+								td #{item.summary}
+								td #{item.pv}
+								td.hidden-xs #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
+								td: a(target="_blank",href="../note/#{item._id}") 查看
+								td: a(href="../admin/noteUpdate/#{item._id}") 修改
+								td
+									button.btn.btn-danger.del(type="button",data-id="#{item._id}",data-toggle="modal",data-target=".bs-example-modal-sm") 删除
+	ul.pagination#adminPage
+	#delModal.modal.fade.bs-example-modal-sm(tabindex="-1",role="dialog",aria-labelledby="mySmallModalLabel")
+		.modal-dialog.modal-sm(role="document")
+			.modal-content
+				.modal-body.center 您是否确定要删除此项
+				.modal-footer
+					button.btn.btn-primary.btn-sm#delconfirm 确定
+					button.btn.btn-default.btn-sm(data-dismiss="modal") 取消
+	script(type='text/javascript').
+		$(function(){
+			adminPage('#adminPage',#{currentPage},#{totalPages},'#{url}')
+			$('.del').click(function(){
+				var target=$(this)
+				$('#delconfirm').click(function(){
+					del(target,'/admin/note_list')
+				})
+			})
+		})

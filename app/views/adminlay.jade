@@ -6,9 +6,12 @@ html
 		meta(name="viewport" content="width=device-width, initial-scale=1")
 		title #{title}
 		link(href="/libs/bootstrap/dist/css/bootstrap.min.css",rel="stylesheet")
+		link(href="/libs/wangEditor/dist/css/wangEditor.min.css",rel="stylesheet")
 		link(href="/css/style.css",rel="stylesheet")
 		script(src="/libs/jquery/dist/jquery.min.js")
 		script(src="/libs/bootstrap/dist/js/bootstrap.min.js")
+		script(src="/libs/wangEditor/dist/js/wangEditor.min.js")
+		script(src="/js/bootstrap-paginator.js")
 	body
 		header
 			nav.navbar.navbar-fixed-top
@@ -35,9 +38,7 @@ html
 								li
 									a(href="/admin/list",title='')  图片列表
 								li
-									a(href="/admin/list",title='') 福利帖子
-								li
-									a(href="/",title='') 返回前台
+									a(href="/admin/note_list",title='') 福利帖子
 								li.dropdown.hidden-xs
 									a.iconfont.user_icon.dropdown-toggle(href="",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") &#xe61b;
 									ul.dropdown-menu
@@ -53,3 +54,4 @@ html
 				.clearfooter
 				.copyinfo.navbar-fixed-bottom © 武汉手绘 
 		script(src="/js/common.js")
+		script(src="/js/admin.js")

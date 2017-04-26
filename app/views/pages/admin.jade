@@ -3,10 +3,10 @@ extends ../adminlay
 block content
 	.container
 		.row
-			form.form-horizontal(method="post",action="/admin/example_new",enctype="multipart/form-data")
+			form.form-horizontal#adminForm(method="post",action="/admin/example_new",enctype="multipart/form-data")
 				if example._id
 					input(type="hidden",name="example[_id]",value=example._id)
-					input(type="hidden",name="example[poster]",value=example.poster)
+					//- input(type="hidden",name="example[poster]",value=example.poster)
 					//- input(type="hidden",name="catId",value=catId)	
 					#catId(class='#{catId}')
 				.form-group
@@ -35,9 +35,9 @@ block content
 					label.col-sm-2.control-label(for="selectGenre") 所属分类
 					.col-sm-10
 						if example._id
-							select#selectGenre.form-control(name="genre[name]",value=genre.name)
+							select#selectGenre.form-control(name="example[genre]",value='example[genre]')
 						else
-							select#selectGenre.form-control(name="",value='')
+							select#selectGenre.form-control(name="example[genre]",value='example[genre]')
 
 							//- option ajax请求
 				.form-group
@@ -46,23 +46,66 @@ block content
 
 						//- radio ajax请求
 				.form-group
-					label.col-sm-2.control-label(for="inputTitle") 图片名称
+					label.col-sm-2.control-label(for="inputTitle") 图片标题
 					.col-sm-10
-						input#inputTitle.form-control(type="text",name="example[title]",value=example.title)
+						input#inputTitle.form-control(type="text",name="example[title]",value=example.title,maxlength='10')
+				//- .form-group
+				//- 	label.col-sm-2.control-label(for="inputPoster") 图片上传
+				//- 	.col-sm-10
+				//- 		input#inputPoster(type="file",name="inputPoster")
 				.form-group
-					label.col-sm-2.control-label(for="inputPoster") 图片上传
+					label.col-sm-2.control-label(for="inputSummary") 图片简要描述
 					.col-sm-10
-						input#inputPoster(type="file",name="inputPoster")
+						input#inputSummary.form-control(type="text",name="example[summary]",value=example.summary,maxlength='30')
 				.form-group
-					label.col-sm-2.control-label(for="inputTitle") 图片简介
-					.col-sm-10
-						input#inputSummary.form-control(type="text",name="example[summary]",value=example.summary)
+					label.col-sm-2.control-label(for="editor-trigger2") 具体内容
+					.col-sm-10#editor-container
+						textarea#editor-trigger2.form-control(type="text",name="example[content]",value=example.content, style="height:350px;") #{example.content}
 				.form-group
 					.col-sm-offset-2.col-sm-10
-						button.btn.btn-default(type="submit") 录入
-	script(src="/js/admin.js")
+						.usertip
+				.form-group
+					.col-sm-offset-2.col-sm-10
+						input.btn.btn-default#adminBtn(type="button" value="录入") 
 	script(type='text/javascript').
 		$(function(){
+		$('#adminBtn').click(function(){
+			if($('#selectGenre').has("option").length==0){
+				$('.usertip').html('去分类列表添加分类')
+			}else if($("#selectCategory").has("label").length==0){
+				$('.usertip').html('去分类列表在此分类下添加关键字')
+			}else if($('#inputTitle').val()==0){
+				$('.usertip').html('图片标题不能为空')
+			}else if($('#inputSummary').val()==0){
+				$('.usertip').html('简要描述不能为空')
+			}else if($('#editor-trigger2').val()==0){
+				$('.usertip').html('具体内容不能为空')
+			}else{
+				$('#adminForm').submit()
+			}
+		})
+		// 编译器
+			var editor2= new wangEditor('editor-trigger2');
+			editor2.config.menus = [
+			   'bold',
+				'italic',
+				'forecolor',
+			    'bgcolor',
+			    'fontsize',
+			    '|',
+			    'link',
+			    'emotion',
+			    'img',
+			    'location',
+			    '|',
+			    'undo',
+			    'redo',
+			    'fullscreen'
+			];
+			editor2.config.uploadImgUrl = '/admin/examplePoster';
+			// editor2.config.emotionsShow = 'value'
+			editor2.create()
+
 			if($('#selectScope').val()){
 				var scope=$('#selectScope').val()
 			}else{
@@ -78,10 +121,10 @@ block content
 		             success: function(data){
 		             	console.log(data.selectNames)
 						for(var i=0;i<data.selectNames.length;i++){
-							string=string+'<option value ="'+data.selectNames[i]+'">'+data.selectNames[i]+'</option>' 
+							string=string+'<option value ="'+data.selectNames[i].id+'">'+data.selectNames[i].name+'</option>' 
 						}
 						$('#selectGenre').html(string)
-						console.log($('#selectGenre').children('option:selected').val())
+						console.log('000000'+$('#selectGenre').children('option:selected').val())
 						getAllCategory()
 					}
 			})

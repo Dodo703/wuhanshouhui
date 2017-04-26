@@ -7,55 +7,73 @@ $('#selectCategory').change(function(){rideoCheck()	})
 // 管理员列表
 $('#addAdUser').click(function(){
 	$('#addUserForm').css('display','block')
-	$('#adminUserList').css('display','none')
+	$('#adminUserList').css('display','none')	
 })
 
 
 
-// // $('#selectGenre').change(getAllCategory())
-// 	$('.del').click(function(e){
-// 		var target=$(e.target)
-// 		var id=target.data('id')
-// 		var tr=$('.item-id-'+id)
-// 		$.ajax({
-// 			type:'DELETE',
-// 			url:'/admin/list?id='+id
-// 		})
-// 		.done(function(results){
-// 			if(results.success===1){
-// 				if(tr.length>0){
-// 					tr.remove()
-// 				}
-// 			}
-// 		})
-// 	})
-
-
-
-
-
-
 })
-
-
-
+//函数
 //删除按钮
-function del(e,url){
-	var target=$(e.target)
+function del(target,url){
 	var id=target.data('id')
 	var tr=$('.item-id-'+id)
 	$.ajax({
 		type:'DELETE',
-		url:url+id
+		url:url+'?id='+id
 	})
 	.done(function(results){
 		if(results.success===1){
-			if(tr.length>0){
-				tr.remove()
-			}
+			if(tr.length>0){tr.remove()}
+			$('#delModal').modal('hide')
 		}
 	})
 }
+// 后台个页面的分页
+function adminPage(item,currentPage,totalPages,url){
+	var options = {  
+			bootstrapMajorVersion: 3, //版本
+            currentPage: currentPage,
+            numberOfPages: 3,  
+            totalPages: totalPages,
+            tooltipTitles: function (type, page, current) {
+		              switch (type) {
+		                case "first":
+		                  return "首页";
+		                case "prev":
+		                  return "上一页";
+		                case "next":
+		                  return "下一页";
+		                case "last":
+		                  return "末页";
+		                case "page":
+		                  return page;
+		              }
+		            },
+		            itemTexts: function (type, page, current) {
+		              switch (type) {
+		                case "first":
+		                  return "首页";
+		                case "prev":
+		                  return "上一页";
+		                case "next":
+		                  return "下一页";
+		                case "last":
+		                  return "末页";
+		                case "page":
+		                  return page;
+		              }
+		            },
+            pageUrl: function(type, page, current){
+                return '/admin/'+url+'?p='+page;  
+  
+            }  
+        }  
+  
+        $(item).bootstrapPaginator(options);  
+}
+
+
 //rideoCheck
 function rideoCheck(){
 	if(document.getElementById("catId")){
@@ -65,6 +83,9 @@ function rideoCheck(){
                         $(this).attr("checked",true)
                     }
                 })
+	}else{
+		$("#selectCategory input:first").attr("checked",true);  
+
 	}
 }
 // getAllGenre
@@ -80,10 +101,9 @@ function getAllGenre(){
              success: function(data){
              	console.log(data.selectNames)
 				for(var i=0;i<data.selectNames.length;i++){
-					string=string+'<option value ="'+data.selectNames[i]+'">'+data.selectNames[i]+'</option>' 
+					string=string+'<option  value='+data.selectNames[i].id+'>'+data.selectNames[i].name+'</option>' 
 				}
 				$('#selectGenre').html(string)
-				console.log($('#selectGenre').children('option:selected').val())
 				getAllCategory()
 			}
 	})

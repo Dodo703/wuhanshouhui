@@ -3,7 +3,7 @@ extends ../adminlay
 block content
 	.container
 		.row
-			form.form-horizontal(method="post",action="/admin/genre")
+			form#adminForm.form-horizontal(method="post",action="/admin/genre")
 				if genre._id
 					input(type="hidden",name="genre[_id]",value=genre._id)
 				.form-group
@@ -25,8 +25,20 @@ block content
 				.form-group
 					label.col-sm-2.control-label(for="inputGenre") 分类名称
 					.col-sm-10
-						input#inputCategory.form-control(type="text",name="genre[name]",value=genre.name,placeholder="如工装，家装，挂画，雕塑。。。")
+						input#inputGenre.form-control(type="text",name="genre[name]",value=genre.name,placeholder="如工装，家装，挂画，雕塑。。。",maxlength='6')
 				.form-group
 					.col-sm-offset-2.col-sm-10
-						button.btn.btn-default(type="submit") 录入
-
+						.usertip
+				.form-group
+					.col-sm-offset-2.col-sm-10
+						input.btn.btn-default#adminBtn(type="button" value="录入") 
+	script(type='text/javascript').
+		$(function(){
+			$('#adminBtn').click(function(){
+				if($('#inputGenre').val()==0){
+					$('.usertip').html('分类名称不能为空')
+				}else{
+					$('#adminForm').submit()
+				}
+			})
+		})

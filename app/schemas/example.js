@@ -5,11 +5,16 @@ var ObjectId=Schema.Types.ObjectId
 var ExampleSchema=new mongoose.Schema({
 	title:String,
 	summary:String,
+	content:String,
 	poster:String,
 	pv:{
 		type:Number,
 		default:0
 	},
+	genre: {
+    type: ObjectId,
+    ref: 'Genre'
+ 	},
 	category: {
     type: ObjectId,
     ref: 'Category'

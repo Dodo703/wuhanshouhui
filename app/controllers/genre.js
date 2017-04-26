@@ -1,5 +1,6 @@
 var Genre=require('../models/genre')
 var Category=require('../models/category')
+var Example=require('../models/example')
 var _=require('underscore')
 
 exports.new=function(req,res){
@@ -39,27 +40,30 @@ exports.save=function(req,res){
 }
 //list page
 exports.list=function(req,res){
-	Genre
-		.find({})
-		.populate({path:'categories'})
-		.exec(function(err,genres){
-			if(err){console.log(err)}
-			res.render('genre_list',{
-				title:'后台图片分类列表页',
-				genres:genres
-			})
+	if(req.query.p){
+		var page=parseInt(req.query.p,10)
+	}else{
+		var page=1
+	}
+	var limit=12
+	var index=(page-1)*limit
+	var count=0
+	var url=''
+	Genre.count(function(errcount,count){
+		Genre
+			.find({})
+			.populate({path:'categories'})
+			.sort({createTime: -1}).limit(limit).skip(index).exec(function(err,genres){
+				if(err){console.log(err)}
+				res.render('genre_list',{
+					title:'后台图片分类列表页',
+					genres:genres,
+					totalPages:Math.ceil(count/limit),
+					currentPage:page,
+					url:'genre_list'
+				})
+		})
 	})
-	// Category.find({},function(err,categories){
-	// 	Genre.fetch(function(err,genres){
-	// 		if(err){
-	// 			console.log(err)
-	// 		}
-	// 		res.render('genre_list',{
-	// 			title:'后台图片分类列表页',
-	// 			genres:genres
-	// 		})
-	// 	})
-	// })
 }
 
 
@@ -68,11 +72,16 @@ exports.list=function(req,res){
 exports.del=function(req,res){
 	var id=req.query.id
 	if(id){
-		Genre.remove({_id:id},function(err,genre){
-			if(err){
-				console.log(err)
-			}else{
-				res.json({success:1})
+		Example.remove({genre:id},function(err){
+			if(err){console.log(err)}
+			else{
+				Category.remove({genre:id},function(err){
+					if(err){console.log(err)}else{
+						Genre.remove({_id:id},function(err){
+							if(err){console.log(err)}else{res.json({success:1})}
+						})
+					}
+				})
 			}
 		})
 	}
@@ -81,9 +90,16 @@ exports.del=function(req,res){
 exports.getAllGenre=function(req,res){
 	scope=req.query.scope
 	Genre.find({scope:scope},function(err,genres){
-		var genreNames=new Array()
-		for(var i=0;i<genres.length;i++){
-			genreNames[i]=genres[i].name
+		var genreNames=[]
+		if(genres.length>0){
+			for(var i=0;i<genres.length;i++){
+			var json={
+				"name":genres[i].name,
+				"id":genres[i]._id
+				}
+				genreNames.push(json)
+			
+			}
 		}
 		res.json({"selectNames":genreNames})
 	})
@@ -93,6 +109,9 @@ exports.getAllGenre=function(req,res){
 exports.genreMore=function(req,res){
 	scope=req.params.scope
 	genre=req.params.id
+	if(scope=='qianghui'){scope='墙绘'}
+	if(scope=='tuku'){scope='图库'}
+	if(scope=='gongyi'){scope='工艺'}
 	var love=0
 	if(genre==1){
 		Genre.find({scope:scope},function(err,genres){
@@ -118,7 +137,7 @@ exports.genreMore=function(req,res){
 		})
 	}else{
 		Genre
-		.find({scope:scope,_id:genre})
+		.findOne({scope:scope,_id:genre})
 		.populate({
 			path: 'categories',
 			select: '_id name examples',
@@ -127,10 +146,11 @@ exports.genreMore=function(req,res){
 			    select: '_id title poster pv summary users'
 			}
 		}).sort({createTime: -1}).exec(function(err,genre){
+			console.log('genre'+genre)
 			if(err){console.log(err)}
 			res.render('qianghui',{
-					title:genre[0].name,
-					genre:genre[0],
+					title:genre.name,
+					genre:genre,
 					love:love
 				})
 	})

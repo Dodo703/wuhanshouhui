@@ -19,27 +19,62 @@ block content
 								td #{item.name}
 								td #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
 								td
-									button.btn.btn-danger.del(type="button",data-id="#{item._id}") 删除
+									button.btn.btn-danger.del(type="button",data-id="#{item._id}",data-toggle="modal",data-target=".bs-example-modal-sm") 删除
 			.col-xs-8.col-md-6.col-xs-offset-2.col-md-offset-3.add-user
 				form#addUserForm.form-horizontal.c-hide(method="post",action="/user/signup")
-					input(type="hidden",name="user[role]",value='10')
+					input#role(type="hidden",name="user[role]",value='10')
 					.form-group
 						label.col-sm-2.control-label(for="inputText") 名称
 						.col-sm-10
-							input#inputText.form-control(type="text",name="user[name]",placeholder="")
+							input#inputText.form-control(type="text",name="user[name]",placeholder="",maxlength='10')
 					.form-group
 						label.col-sm-2.control-label(for="inputPass") 密码
 						.col-sm-10
 							input#inputPass.form-control(type="password",name="user[password]",placeholder="")
 					.form-group
+						.col-sm-offset-2.col-sm-10.upusertip
+					.form-group
 						.col-sm-offset-2.col-sm-10
-							button.btn.btn-default(type="submit") 添加
+							input.btn#upSubmit(type="button" value="添加")
+	#delModal.modal.fade.bs-example-modal-sm(tabindex="-1",role="dialog",aria-labelledby="mySmallModalLabel")
+		.modal-dialog.modal-sm(role="document")
+			.modal-content
+				.modal-body.center 您是否确定要删除这个管理员
+				.modal-footer
+					button.btn.btn-primary.btn-sm#delconfirm 确定
+					button.btn.btn-default.btn-sm(data-dismiss="modal") 取消 
 	script(src="/js/admin.js")
 	script(type='text/javascript').
 		$(function(){
 			//用户列表
-			$('.del').on('click',function(e){
-				del(e,'/admin/userlist?id=')
-			}) 
-
+			$('.del').click(function(){
+				var target=$(this)
+				$('#delconfirm').click(function(){
+					del(target,'/admin/userlist')
+				})
+			})
+			//添加
+			$('#upSubmit').click(function(){
+				var name=$('#inputText').val()
+				var password=$('#inputPass').val()
+				var role=$('#role').val()
+				if(password.length<6){$('.upusertip').html('密码位数不能小于6位数')}
+				if(name.length==0){$('.upusertip').html('用户名不能为空')}
+				if(name.length!=0 && password.length>=6){
+					$.ajax({
+				         type: "POST",
+				         url: "/user/signup",
+				         data:{name:name,password:password,role:role},
+				         dataType: "json",
+				         success: function(data){
+							if(data.success===1){
+								window.location.href='../admin/useradmin'
+							}else{
+								$('.upusertip').html(data.text)
+							}
+						}
+					})
+				}	
+			})
+			
 		})	

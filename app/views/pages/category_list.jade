@@ -18,7 +18,23 @@ block content
 								td #{genre}
 								td #{item.name}
 								td #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
-								td: a(target="_blank",href="../category/#{genreId}/#{item._id}") 修改
+								td: a(href="../category/#{genreId}/#{item._id}") 修改
 								td
-									button.btn.btn-danger.del(type="button",data-id="#{item._id}") 删除
-	//- script(src="/js/admin.js")
+									button.btn.btn-danger.del(type="button",data-id="#{item._id}",data-toggle="modal",data-target=".bs-example-modal-sm") 删除
+	#delModal.modal.fade.bs-example-modal-sm(tabindex="-1",role="dialog",aria-labelledby="mySmallModalLabel")
+		.modal-dialog.modal-sm(role="document")
+			.modal-content
+				.modal-body.center 删除此项你将会把该关键字下的图片全将删掉，您是否确定要删除此项
+				.modal-footer
+					button.btn.btn-primary.btn-sm#delconfirm 确定
+					button.btn.btn-default.btn-sm(data-dismiss="modal") 取消
+	script(type='text/javascript').
+		$(function(){
+			$('.del').click(function(){
+				var target=$(this)
+				console.log('ggggggggggg'+target)
+				$('#delconfirm').click(function(){
+					del(target,'/admin/category_list')
+				})
+			})
+		})

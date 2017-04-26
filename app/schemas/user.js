@@ -19,6 +19,7 @@ var UserSchema=new mongoose.Schema({
 		default:0
 	},
 	examples:[{type:ObjectId,ref:'Example'}],
+	notes:[{type:ObjectId,ref:'Note'}],
 	meta:{
 		createAt:{
 			type:Date,

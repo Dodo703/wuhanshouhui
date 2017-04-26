@@ -3,7 +3,8 @@ extends ../adminlay
 block content
 	.container
 		.row
-			a#addAdminUser.bottom10.col-xs-4.col-sm-2.btn.col-xs-offset-4.col-sm-offset-5.btn-default.btn-sm(href="../admin/useradmin") 管理员列表
+			if user.role>40
+				a#addAdminUser.bottom10.col-xs-4.col-sm-2.btn.col-xs-offset-4.col-sm-offset-5.btn-default.btn-sm(href="../admin/useradmin") 管理员列表
 			.clearfix
 			.table-responsive
 				table.table.table-hover.table-bordered
@@ -24,13 +25,22 @@ block content
 								td #{item.address}
 								td #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
 								td
-									button.btn.btn-danger.del(type="button",data-id="#{item._id}") 删除
-	script(src="/js/admin.js")
+									button.btn.btn-danger.del(type="button",data-id="#{item._id}",data-toggle="modal",data-target=".bs-example-modal-sm") 删除
+	ul.pagination#adminPage
+	#delModal.modal.fade.bs-example-modal-sm(tabindex="-1",role="dialog",aria-labelledby="mySmallModalLabel")
+		.modal-dialog.modal-sm(role="document")
+			.modal-content
+				.modal-body.center 您是否确定要删除这个用户
+				.modal-footer
+					button.btn.btn-primary.btn-sm#delconfirm 确定
+					button.btn.btn-default.btn-sm(data-dismiss="modal") 取消
 	script(type='text/javascript').
 		$(function(){
-			//用户列表
-			$('.del').on('click',function(e){
-				del(e,'/admin/userlist?id=')
-			}) 
-
+			adminPage('#adminPage',#{currentPage},#{totalPages},'#{url}')
+			$('.del').click(function(){
+				var target=$(this)
+				$('#delconfirm').click(function(){
+					del(target,'/admin/userlist')
+				})
+			})	
 		})	

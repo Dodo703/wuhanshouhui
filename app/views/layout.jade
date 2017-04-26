@@ -3,7 +3,7 @@ html
 	head
 		meta(charset="utf-8")
 		meta(http-equiv="X-UA-Compatible" content="IE=edge")
-		meta(name="viewport" content="width=device-width, initial-scale=1")
+		meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
 		meta( name="description" content="武汉墙绘新型画师团队，缔造手绘壁画艺术精品，一家致力于设计与制作墙体彩绘（又名：墙画，手绘墙画，壁画，3D立体画）等服务且富有创新和活力的服务团队，优质服务，价格优惠，品质保证。")
 		meta( name="keywords" content="武汉墙绘,3d画,手绘墙画,手绘壁画,彩绘,墙绘,墙体彩绘,涂鸦,壁画,幼儿园墙绘,室内墙绘,手绘背景墙,墙绘价格,手绘壁画装饰" )
 		title #{title}
@@ -15,20 +15,7 @@ html
 		.row.home_footer.container
 			.col-xs-12.col-sm-4.col-md-4.col-lg-4
 				h3 福利动态
-				a.home_weal(href='#',title="")
-					.col-xs-3.col-sm-3.col-md-3.col-lg-2.footer_weal
-						img(src="http://source.chengdumote.com/wp-content/uploads/2016/06/nvshen2-400x400.jpg",alt="")
-					.col-xs-9.col-sm-9.col-md-9.col-lg-10.footer_weal
-						h4 发福利啦
-						p jsdhsdsdjfdsfb
-					.clearfix
-				a.home_weal(href='#',title="")
-					.col-xs-3.col-sm-3.col-md-3.col-lg-2.footer_weal
-						img(src="http://source.chengdumote.com/wp-content/uploads/2016/06/nvshen2-400x400.jpg",alt="")
-					.col-xs-9.col-sm-9.col-md-9.col-lg-10.footer_weal
-						h4 发福利啦
-						p jsdhsdsdjfdsfb
-					.clearfix
+				.indexFulifooter
 			.col-xs-12.col-sm-4.col-md-4.col-lg-4
 				h3 联系我们
 				a.home_qq(href='#',title="")
@@ -39,10 +26,10 @@ html
 					span 1245699167
 				div 吴小姐：18120583011
 				br
-				div 联系地址 : 深圳市布吉大芬油画村老围西二巷五号三楼整层
+				div 联系地址 : 武汉市天下第一村
 			.col-xs-12.col-sm-4.col-md-4.col-lg-4
 				h3 关注我们
-				img.code_img(src="http://source.chengdumote.com/wp-content/themes/sugarbox/images/code.jpg",alt="")
+				img.code_img(src="/images/code_img.jpg",alt="")
 			.clearfix
 		footer
 			.copyinfo © 武汉手绘 
@@ -56,13 +43,14 @@ html
 						.clearfix
 					.mutiview-dialog-content.login
 						.LoginForm
-							form(method="post",action="/user/signin")
+							form
 								.input-wrapper
-									input(type="text",name="user[name]",placeholder="手机号")
+									input#inName(type="text",name="user[name]",placeholder="用户名")
 								.input-wrapper
-									input(type="password",name="user[password]",placeholder="密码")
+									input#inPass(type="password",name="user[password]",placeholder="密码")
+								.usertip
 								.actions
-									button.btn 登录
+									input.btn#inSubmit(type="button" value="登录") 
 								.sns.clearfix
 									label.remember_me
 										input(type="checkbox",name="",checked,value="true")
@@ -70,21 +58,15 @@ html
 									a.forget(href="",title="") 忘记密码？
 					.mutiview-dialog-content.register
 						.LoginForm
-							form(method="post",action="/user/signup")
+							form
 								.input-wrapper
-									input(type="text",name="user[name]",placeholder="手机号")
+									input#upName(type="text",name="user[name]",placeholder="用户名",maxlength='10')
 								.input-wrapper
-									input(type="password",name="user[password]",placeholder="密码")
-								.input-wrapper
-									input(type="text",name="",placeholder="请填写验证码")
-									div.captcha-container 获取短信验证码
+									input#upPass(type="password",name="user[password]",placeholder="密码")
+								.upusertip
+								//- .input-wrapper
+								//- 	input(type="text",name="",placeholder="请填写验证码")
+								//- 	div.captcha-container 获取短信验证码
 								.actions
-									button.btn(type="submit") 注册
+									input.btn#upSubmit(type="button" value="注册") 
 		script(src="/js/common.js")
-		script(type='text/javascript').
-			$(function(){
-				// header
-			headGenre('#gHead','工艺')
-			headGenre('#qHead','墙绘')
-			headGenre('#tHead','图库')
-			})	

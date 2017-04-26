@@ -32,6 +32,23 @@ block content
 								td.hidden-xs #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
 								td: a(href="/admin/genre_new/#{item._id}") 修改
 								td
-									button.btn.btn-danger.del.btn-sm(type="button",data-id="#{item._id}") 删除
-	script(src="/js/admin.js")
+									button.btn.btn-danger.del(type="button",data-id="#{item._id}",data-toggle="modal",data-target=".bs-example-modal-sm") 删除
+	ul.pagination#adminPage
+	#delModal.modal.fade.bs-example-modal-sm(tabindex="-1",role="dialog",aria-labelledby="mySmallModalLabel")
+		.modal-dialog.modal-sm(role="document")
+			.modal-content
+				.modal-body.center 删除此项你将会把该分类下的关键字及图片全将删掉，您是否确定要删除此项
+				.modal-footer
+					button.btn.btn-primary.btn-sm#delconfirm 确定
+					button.btn.btn-default.btn-sm(data-dismiss="modal") 取消
+	script(type='text/javascript').
+		$(function(){
+			adminPage('#adminPage',#{currentPage},#{totalPages},'#{url}')
+			$('.del').click(function(){
+				var target=$(this)
+				$('#delconfirm').click(function(){
+					del(target,'/admin/genre_list')
+				})
+			})
+		})
 

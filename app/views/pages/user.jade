@@ -9,55 +9,62 @@ block content
 			p #{user.name}
 			ul.user_nav
 				li 账号设置
-				li.active 我的收藏
-				li 我的评论
+				li.active 图片收藏
+				li 福利帖子
 		.user_content
-			.content.user_info
-				form(action="" method="post")
+			.content.user_info#userInfo
+				form
 					table.list
 						tbody
-							tr
-								td.title 手机号码&nbsp;:
-								td.center 111111111
-							tr
-								td.title 用户名&nbsp;:
-								td
-									input.clear-input(type="text" name="profile[name]")
-							tr
-								td.title QQ邮箱&nbsp;:
-								td
-									input.clear-input(type="text" name="profile[email]")
-							tr
-								td.title 收货地址&nbsp;:
-								td
-									input.clear-input(type="text" name="profile[address]")
+							//- tr
+							//- 	td.title 手机号码&nbsp;:
+							//- 	td.center 111111111
+							//- tr
+							//- 	td.title 用户名&nbsp;:
+							//- 	td
+							//- 		input.clear-input(type="text" name="profile[name]")
+							//- tr
+							//- 	td.title QQ邮箱&nbsp;:
+							//- 	td
+							//- 		input.clear-input(type="text" name="profile[email]")
+							//- tr
+							//- 	td.title 收货地址&nbsp;:
+							//- 	td
+							//- 		input.clear-input(type="text" name="profile[address]")
 							tr
 								td.center.pass_tilte(colspan="2") 修改密码
 							tr
-								td.title 当前密码&nbsp;:
+								td.title 原始密码&nbsp;:
 								td
-									input.clear-input(type="password" name="password[old]")
+									input.clear-input(type="hidden" name="name" value=user.name)
+									input.clear-input(type="password" name="oldpassword")
+									.usertip 
 							tr
 								td.title 新密码&nbsp;:
 								td
-									input.clear-input(type="password" name="password[new]")
+									input.clear-input(type="password" name="newpassword")
 							tr
 								td.title 确认新密码&nbsp;:
 								td
-									input.clear-input(type="password" name="password[confirm]")		
+									input.clear-input(type="password" name="confirmpassword")		
 							tr
 								td.title
 								td
-									button 保存
+									input.btn#updateSubmit(type="button" value="保存")
 			//- 收藏
-			.content.user_loved#userFavourite
+			.content.user_loved
+				#userFavourite
+				.clearfix
+				ul.pagination#imgPage
 			//- 评论
-			.content.user_comment
-	script(src="/js/ajax.js")
+			.content.fuli.user_comment
+				.ul#userNote
+				ul.pagination#notePage
+	script(src="/js/common.js")				
 	script(type='text/javascript').
 		$(function(){
-			userFavourite('#userFavourite',12)
-		})			
+			userNote('#userFavourite','#imgPage','example')
+		})	
 
 		
 

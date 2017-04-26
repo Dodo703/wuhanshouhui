@@ -1,5 +1,6 @@
 var Category=require('../models/category')
 var Genre=require('../models/genre')
+var Example=require('../models/example')
 var _=require('underscore')
 
 
@@ -60,17 +61,17 @@ exports.list=function(req,res){
 	.find({genre:id})
 	.populate({path:'genre'})
 	.exec(function(err,categories){
-		if(err){console.log(err)}
-		var genre=categories[0].genre.name
-		var genreId=categories[0].genre._id
-		res.render('category_list',{
-			title:genre+'图片关键字',
-			categories:categories,
-			genre:genre,
-			genreId:genreId
-		})
-	})
-	
+		if(err){console.log(err)}else{
+			var genre=categories[0].genre.name
+			var genreId=categories[0].genre._id
+			res.render('category_list',{
+				title:genre+'图片关键字',
+				categories:categories,
+				genre:genre,
+				genreId:genreId
+			})
+		}
+	})	
 }
 // // admin update example
 // exports.update=function(req,res){
@@ -88,20 +89,22 @@ exports.list=function(req,res){
 // 	}
 // }
 
-//list delete example
+// list delete category
 
 exports.del=function(req,res){
 	var id=req.query.id
 	if(id){
-		Example.find({category:id},function(err,examples){
-			var imgPath=path.join(__dirname,'../../','/public/'+example.poster)
-			 fs.unlink(imgPath, function (err) {
-			    if (err) return console.log(err)
-			    Example.remove({_id:id},function(err,example){
-					if(err){console.log(err)}
-					else{res.json({success:1})}
+		Example.remove({category:id},function(err){
+			if(err){console.log(err)}
+			else{
+				Category.remove({_id:id},function(err){
+					if(err){console.log(err)}else{
+						Genre.update({$pull:{"categories":id}},function(err){
+							if(err){console.log(err)}else{res.json({success:1})}
+						})
+					}
 				})
-			})
+			}
 		})
 	}
 }
@@ -112,7 +115,7 @@ exports.getAllCategory=function(req,res){
 	genre=req.query.genre
 	console.log(genre+'上传'+scope)
 	Genre
-		.find({scope:scope,name:genre})
+		.find({scope:scope,_id:genre})
 		.populate({path:'categories'})
 		.exec(function(err,genres){
 			if(err){console.log(err)}
@@ -131,4 +134,22 @@ exports.getAllCategory=function(req,res){
 			console.log('json数组'+selectNames)
 			res.json({"selectNames":selectNames})
 	})	
+}
+//这个分类里面的全部图片
+exports.getAmount=function(req,res){
+	var id=req.query.id
+	var scope=req.query.scope
+	var count=0
+	if(scope==0){
+		Example.count({category:id},function(errcount,count){
+			console.log("count"+count)
+			res.send(count.toString())
+		})
+	}else{
+		Example.count({genre:id},function(errcount,count){
+			console.log("count"+count)
+			res.send(count.toString())
+		})
+	}
+	
 }

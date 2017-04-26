@@ -4,6 +4,7 @@ var ObjectId=Schema.Types.ObjectId
 
 var CommentSchema=new mongoose.Schema({
 	example:{type:ObjectId,ref:'Example'},
+	note:{type:ObjectId,ref:'Note'},
 	from:{type:ObjectId,ref:'User'},
 	reply:[{
 		from:{type:ObjectId,ref:'User'},

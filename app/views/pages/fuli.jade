@@ -4,15 +4,39 @@ block content
 	.fuli.container
 		h2 福利贴来啦!!!
 		.ul
-			a.home_weal(href='#',title="")
-					.col-xs-3.col-sm-3.col-md-3.col-lg-2
-						img(src="http://source.chengdumote.com/wp-content/uploads/2016/06/nvshen2-400x400.jpg",alt="")
+			each item in notes
+				a.home_weal(href='../note/#{item._id}',title="")
+					.col-xs-3.col-sm-2.col-md-2.col-lg-1.padding-right
+						.div-bgimg(style="background-image:url(#{item.poster})")
 					.col-xs-9.col-sm-9.col-md-9.col-lg-10
-						h4 发福利啦
-						p jsdhsdsdjfdsfb
+						h4=item.title
+						p=item.summary
 						span 发布：
-								small 2016/06/09
+							small #{moment(item.meta.updateAt).format('MM/DD/YYYY')}
+					.case_status.fuli_absolute
+						p
+							i.iconfont &#xe637;
+							span #{item.pv}
+							small.small_line
+							-love=0
+							if user
+								-for(var j=0;j<item.users.length;j++){
+									-if(user._id==item.users[j]){love=1}
+								-}
+								if love==0
+									i.iconfont.fuli_love(data-id="#{item._id}") &#xe62b;
+								else
+									i.iconfont.fuli_love.loved(data-id="#{item._id}") &#xe614;
+							else 
+								i.iconfont.fuli_love(data-id="#{item._id}" data-toggle="tooltip" data-placement="bottom" title="登录后可收藏") &#xe62b;
+							span #{item.users.length}
 					.clearfix
+		ul.pagination#fuliPage
+	script(type='text/javascript').
+		$(function(){
+			fuliPage('#fuliPage',#{currentPage},#{totalPages}) 
+			$(".fuli .div-bgimg").height($(".fuli .div-bgimg").width());
+		})
 		
 
 

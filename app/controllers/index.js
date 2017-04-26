@@ -7,7 +7,7 @@ exports.index=function(req,res){
 	Category
 		.find({})
 		.populate({path:'examples',options:{limit:12}})
-		.exec(function(err,categories){
+		.sort({createTime: -1}).exec(function(err,categories){
 			if(err){console.log(err)}
 			res.render('index',{
 				title:'武汉手绘',
@@ -16,37 +16,6 @@ exports.index=function(req,res){
 	})
 }
 
-//search page
-exports.search=function(req,res){
-	var catId=req.query.cat
-	var page=parseInt(req.query.p,10)
-	var limit=2
-	var index=page*limit
-	var count=0
-	Category
-		.find({_id:catId})
-		.populate({path:'examples'})
-		.exec(function(err,categories){
-			if(err){console.log(err)}
-			count=categories[0].examples.length
-			Category
-				.find({_id:catId})
-				.populate({path:'examples',options:{limit:limit,skip:index}})
-				.exec(function(err,categories){
-					if(err){console.log(err)}
-					var category=categories[0] || {}
-					res.render('results',{
-						title:'结果列表页面',
-						keyword:category.name,
-						currentPage:page+1,
-						catId:catId,
-						totalPage:Math.ceil(count/limit),
-						// totalPage:totalPage,
-						category:category
-					})
-			})
-		})
-}
 
 exports.show=function(req,res){
 	var scopeName=req.query.scope
@@ -56,6 +25,9 @@ exports.show=function(req,res){
 	var love=0
 	var favourite=0
 	var sessionUser=0
+	if(scopeName=='qianghui'){scopeName='墙绘'}
+	if(scopeName=='tuku'){scopeName='图库'}
+	if(scopeName=='gongyi'){scopeName='工艺'}
 	if(req.session.user){
 		sessionUser=1
 		userId=req.session.user._id}
@@ -71,8 +43,6 @@ exports.show=function(req,res){
 			    model:'Genre',
 			}
 		}).sort({createTime: -1}).exec(function(err, examples) {
-				// console.log('hhhhhh'+examples[0].category.genre.scope)
-				// console.log('hhhhhh'+scopeName)
 				for(var i=0,j=0;i<examples.length&&j<limit;i++){
 					if(examples[i].category.genre.scope==scopeName){
 						if(examples[i].users){

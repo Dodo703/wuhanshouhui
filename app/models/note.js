@@ -1,5 +1,5 @@
 var mongoose=require('mongoose')
-var ExampleSchema=require('../schemas/example.js')
-var Example=mongoose.model('Example',ExampleSchema)
+var NoteSchema=require('../schemas/note.js')
+var Note=mongoose.model('Note',NoteSchema)
 
-module.exports=Example
+module.exports=Note

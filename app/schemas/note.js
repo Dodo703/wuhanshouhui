@@ -2,17 +2,15 @@ var mongoose=require('mongoose')
 var Schema=mongoose.Schema
 var ObjectId=Schema.Types.ObjectId
 
-var ExampleSchema=new mongoose.Schema({
+var NoteSchema=new mongoose.Schema({
 	title:String,
 	summary:String,
+	content:String,
 	pv:{
 		type:Number,
 		default:0
 	},
-	user: {
-    type: ObjectId,
-    ref: 'User'
- 	},
+	users: [{type: ObjectId,ref: 'User'}],
 	meta:{
 		createAt:{
 			type:Date,
@@ -25,7 +23,7 @@ var ExampleSchema=new mongoose.Schema({
 	}
 })
 
-ExampleSchema.pre('save',function(next){
+NoteSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt=this.meta.updateAt=Date.now()
 	}else{
@@ -34,7 +32,7 @@ ExampleSchema.pre('save',function(next){
 	next()
 })
 
-ExampleSchema.statics={
+NoteSchema.statics={
 	fetch:function(cb){
 		return this
 		.find({})
@@ -48,4 +46,4 @@ ExampleSchema.statics={
 	}
 }
 
-module.exports=ExampleSchema
+module.exports=NoteSchema
